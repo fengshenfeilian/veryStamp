@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.managementSystem.dao.On_Work_ShopMapper">
+  <resultMap id="BaseResultMap" type="com.managementSystem.pojo.On_Work_Shop">
+    <id column="SHOP_ID" jdbcType="VARCHAR" property="shopId" />
+    <result column="CURRENT_STATUS" jdbcType="VARCHAR" property="currentStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    SHOP_ID, CURRENT_STATUS
+  </sql>
+  <select id="selectByExample" parameterType="com.managementSystem.pojo.On_Work_ShopExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from on_work_shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from on_work_shop
+    where SHOP_ID = #{shopId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from on_work_shop
+    where SHOP_ID = #{shopId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.managementSystem.pojo.On_Work_ShopExample">
+    delete from on_work_shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.managementSystem.pojo.On_Work_Shop">
+    insert into on_work_shop (SHOP_ID, CURRENT_STATUS)
+    values (#{shopId,jdbcType=VARCHAR}, #{currentStatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.managementSystem.pojo.On_Work_Shop">
+    insert into on_work_shop
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shopId != null">
+        SHOP_ID,
+      </if>
+      <if test="currentStatus != null">
+        CURRENT_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shopId != null">
+        #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="currentStatus != null">
+        #{currentStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.managementSystem.pojo.On_Work_ShopExample" resultType="java.lang.Long">
+    select count(*) from on_work_shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update on_work_shop
+    <set>
+      <if test="record.shopId != null">
+        SHOP_ID = #{record.shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.currentStatus != null">
+        CURRENT_STATUS = #{record.currentStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update on_work_shop
+    set SHOP_ID = #{record.shopId,jdbcType=VARCHAR},
+      CURRENT_STATUS = #{record.currentStatus,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.managementSystem.pojo.On_Work_Shop">
+    update on_work_shop
+    <set>
+      <if test="currentStatus != null">
+        CURRENT_STATUS = #{currentStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SHOP_ID = #{shopId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.managementSystem.pojo.On_Work_Shop">
+    update on_work_shop
+    set CURRENT_STATUS = #{currentStatus,jdbcType=VARCHAR}
+    where SHOP_ID = #{shopId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.managementSystem.dao.ResourceMapper">
+  <resultMap id="BaseResultMap" type="com.managementSystem.pojo.Resource">
+    <id column="RES_ID" jdbcType="VARCHAR" property="resId" />
+    <result column="RES_NAME" jdbcType="VARCHAR" property="resName" />
+    <result column="SHOP_ID" jdbcType="VARCHAR" property="shopId" />
+    <result column="PAGE_COUNT" jdbcType="INTEGER" property="pageCount" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="TOTAL_PRICE" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="RES_TYPE" jdbcType="VARCHAR" property="resType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    RES_ID, RES_NAME, SHOP_ID, PAGE_COUNT, DESCRIPTION, TOTAL_PRICE, RES_TYPE
+  </sql>
+  <select id="selectByExample" parameterType="com.managementSystem.pojo.ResourceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from resource
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from resource
+    where RES_ID = #{resId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from resource
+    where RES_ID = #{resId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.managementSystem.pojo.ResourceExample">
+    delete from resource
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.managementSystem.pojo.Resource">
+    insert into resource (RES_ID, RES_NAME, SHOP_ID, 
+      PAGE_COUNT, DESCRIPTION, TOTAL_PRICE, 
+      RES_TYPE)
+    values (#{resId,jdbcType=VARCHAR}, #{resName,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}, 
+      #{pageCount,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{totalPrice,jdbcType=DECIMAL}, 
+      #{resType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.managementSystem.pojo.Resource">
+    insert into resource
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="resId != null">
+        RES_ID,
+      </if>
+      <if test="resName != null">
+        RES_NAME,
+      </if>
+      <if test="shopId != null">
+        SHOP_ID,
+      </if>
+      <if test="pageCount != null">
+        PAGE_COUNT,
+      </if>
+      <if test="description != null">
+        DESCRIPTION,
+      </if>
+      <if test="totalPrice != null">
+        TOTAL_PRICE,
+      </if>
+      <if test="resType != null">
+        RES_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="resId != null">
+        #{resId,jdbcType=VARCHAR},
+      </if>
+      <if test="resName != null">
+        #{resName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="pageCount != null">
+        #{pageCount,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="resType != null">
+        #{resType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.managementSystem.pojo.ResourceExample" resultType="java.lang.Long">
+    select count(*) from resource
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update resource
+    <set>
+      <if test="record.resId != null">
+        RES_ID = #{record.resId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resName != null">
+        RES_NAME = #{record.resName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopId != null">
+        SHOP_ID = #{record.shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pageCount != null">
+        PAGE_COUNT = #{record.pageCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.description != null">
+        DESCRIPTION = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalPrice != null">
+        TOTAL_PRICE = #{record.totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.resType != null">
+        RES_TYPE = #{record.resType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update resource
+    set RES_ID = #{record.resId,jdbcType=VARCHAR},
+      RES_NAME = #{record.resName,jdbcType=VARCHAR},
+      SHOP_ID = #{record.shopId,jdbcType=VARCHAR},
+      PAGE_COUNT = #{record.pageCount,jdbcType=INTEGER},
+      DESCRIPTION = #{record.description,jdbcType=VARCHAR},
+      TOTAL_PRICE = #{record.totalPrice,jdbcType=DECIMAL},
+      RES_TYPE = #{record.resType,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.managementSystem.pojo.Resource">
+    update resource
+    <set>
+      <if test="resName != null">
+        RES_NAME = #{resName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        SHOP_ID = #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="pageCount != null">
+        PAGE_COUNT = #{pageCount,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null">
+        TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="resType != null">
+        RES_TYPE = #{resType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RES_ID = #{resId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.managementSystem.pojo.Resource">
+    update resource
+    set RES_NAME = #{resName,jdbcType=VARCHAR},
+      SHOP_ID = #{shopId,jdbcType=VARCHAR},
+      PAGE_COUNT = #{pageCount,jdbcType=INTEGER},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+      RES_TYPE = #{resType,jdbcType=VARCHAR}
+    where RES_ID = #{resId,jdbcType=VARCHAR}
+  </update>
+</mapper>

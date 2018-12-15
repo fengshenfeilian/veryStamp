@@ -9,6 +9,7 @@
     <result column="BUSINESS_START_TIME" jdbcType="TIMESTAMP" property="businessStartTime" />
     <result column="BUSINESS_END_TIME" jdbcType="TIMESTAMP" property="businessEndTime" />
     <result column="SIGNUP_TIME" jdbcType="TIMESTAMP" property="signupTime" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    SHOP_ID, USER_NAME, PASSWORD, PHONE, BUSINESS_START_TIME, BUSINESS_END_TIME, SIGNUP_TIME
+    SHOP_ID, USER_NAME, PASSWORD, PHONE, BUSINESS_START_TIME, BUSINESS_END_TIME, SIGNUP_TIME, 
+    ADDRESS
   </sql>
   <select id="selectByExample" parameterType="com.managementSystem.pojo.ShopExample" resultMap="BaseResultMap">
     select
@@ -104,10 +106,10 @@
   <insert id="insert" parameterType="com.managementSystem.pojo.Shop">
     insert into shop (SHOP_ID, USER_NAME, PASSWORD, 
       PHONE, BUSINESS_START_TIME, BUSINESS_END_TIME, 
-      SIGNUP_TIME)
+      SIGNUP_TIME, ADDRESS)
     values (#{shopId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{businessStartTime,jdbcType=TIMESTAMP}, #{businessEndTime,jdbcType=TIMESTAMP}, 
-      #{signupTime,jdbcType=TIMESTAMP})
+      #{signupTime,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.managementSystem.pojo.Shop">
     insert into shop
@@ -133,6 +135,9 @@
       <if test="signupTime != null">
         SIGNUP_TIME,
       </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="shopId != null">
@@ -155,6 +160,9 @@
       </if>
       <if test="signupTime != null">
         #{signupTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -188,6 +196,9 @@
       <if test="record.signupTime != null">
         SIGNUP_TIME = #{record.signupTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.address != null">
+        ADDRESS = #{record.address,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -201,7 +212,8 @@
       PHONE = #{record.phone,jdbcType=VARCHAR},
       BUSINESS_START_TIME = #{record.businessStartTime,jdbcType=TIMESTAMP},
       BUSINESS_END_TIME = #{record.businessEndTime,jdbcType=TIMESTAMP},
-      SIGNUP_TIME = #{record.signupTime,jdbcType=TIMESTAMP}
+      SIGNUP_TIME = #{record.signupTime,jdbcType=TIMESTAMP},
+      ADDRESS = #{record.address,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +239,9 @@
       <if test="signupTime != null">
         SIGNUP_TIME = #{signupTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
     </set>
     where SHOP_ID = #{shopId,jdbcType=VARCHAR}
   </update>
@@ -237,7 +252,8 @@
       PHONE = #{phone,jdbcType=VARCHAR},
       BUSINESS_START_TIME = #{businessStartTime,jdbcType=TIMESTAMP},
       BUSINESS_END_TIME = #{businessEndTime,jdbcType=TIMESTAMP},
-      SIGNUP_TIME = #{signupTime,jdbcType=TIMESTAMP}
+      SIGNUP_TIME = #{signupTime,jdbcType=TIMESTAMP},
+      ADDRESS = #{address,jdbcType=VARCHAR}
     where SHOP_ID = #{shopId,jdbcType=VARCHAR}
   </update>
 </mapper>

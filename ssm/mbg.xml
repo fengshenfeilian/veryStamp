@@ -38,7 +38,7 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <!--table指定每个表的生成策略-->
+        <!--table指定每个表的生成策略
         <table tableName="admin" domainObjectName="Admin"></table>
         <table tableName="shop" domainObjectName="Shop"></table>
         <table tableName="consumer" domainObjectName="Consumer"></table>
@@ -48,7 +48,8 @@
         <table tableName="consumer_credit" domainObjectName="Consumer_Credit"></table>
         <table tableName="order_list" domainObjectName="Order_List"></table>
         <table tableName="resource" domainObjectName="Resource"></table>
-        <table tableName="shop_price" domainObjectName="Shop_Price"></table>
+        <table tableName="shop_price" domainObjectName="Shop_Price"></table>-->
+        <table tableName="shop" domainObjectName="Shop"></table>
 
     </context>
 </generatorConfiguration>

@@ -17,6 +17,8 @@ public class Shop {
 
     private Date signupTime;
 
+    private String address;
+
     public String getShopId() {
         return shopId;
     }
@@ -71,5 +73,13 @@ public class Shop {
 
     public void setSignupTime(Date signupTime) {
         this.signupTime = signupTime;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
     }
 }

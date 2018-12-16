@@ -125,8 +125,8 @@
             <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
                 <h6>个人信息</h6></div>
             <p>用户名:${shop.userName}</p>
-            <p>联系电话:${shop.phone}</p>
-            <p>联系地址:${shop.}</p>
+            <p>联系电话:${shop.shopId}</p>
+            <p>联系地址:${shop.address}</p>
             <p>营业时间:${shop.businessStartTime}-${shop.businessEndTime}</p>
             <p>注册时间:${shop.signupTime}</p>
             <a href="/shop/goModifyInfo">修改信息</a>

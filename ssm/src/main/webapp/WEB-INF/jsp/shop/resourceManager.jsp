@@ -135,19 +135,17 @@
                     <td class="sortCol"><div>资源描述<span></span></div></td>
                     <td class="sortCol"><div>资源页数<span></span></div></td>
                     <td class="sortCol"><div>资源价格<span></span></div></td>
-                    <td class="sortCol"><div>上传时间<span></span></div></td>
                     <td class="sortCol"><div>操作<span></span></div></td>
                 </tr>
                 </thead>
                 <tbody align="center">
-                <c:forEach items="${studentCourse}" var="studentCourse">
+                <c:forEach items="${resources}" var="resource">
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><a href="/student/courseInfo?courseId=${studentCourse.courseId}"><button class="blueB">删除</button></a></td>
+                        <td>${resource.resName}</td>
+                        <td>${resource.description}</td>
+                        <td>${resource.pageCount}</td>
+                        <td>${resource.totalPrice}</td>
+                        <td><a href="/shop/deleteResource?resourceId=${resource.resId}"><button class="blueB">删除</button></a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

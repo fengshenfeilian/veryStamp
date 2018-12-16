@@ -395,52 +395,62 @@ public class ShopExample {
             return (Criteria) this;
         }
 
-        public Criteria andBusinessStartTimeEqualTo(Date value) {
+        public Criteria andBusinessStartTimeEqualTo(String value) {
             addCriterion("BUSINESS_START_TIME =", value, "businessStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessStartTimeNotEqualTo(Date value) {
+        public Criteria andBusinessStartTimeNotEqualTo(String value) {
             addCriterion("BUSINESS_START_TIME <>", value, "businessStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessStartTimeGreaterThan(Date value) {
+        public Criteria andBusinessStartTimeGreaterThan(String value) {
             addCriterion("BUSINESS_START_TIME >", value, "businessStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessStartTimeGreaterThanOrEqualTo(Date value) {
+        public Criteria andBusinessStartTimeGreaterThanOrEqualTo(String value) {
             addCriterion("BUSINESS_START_TIME >=", value, "businessStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessStartTimeLessThan(Date value) {
+        public Criteria andBusinessStartTimeLessThan(String value) {
             addCriterion("BUSINESS_START_TIME <", value, "businessStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessStartTimeLessThanOrEqualTo(Date value) {
+        public Criteria andBusinessStartTimeLessThanOrEqualTo(String value) {
             addCriterion("BUSINESS_START_TIME <=", value, "businessStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessStartTimeIn(List<Date> values) {
+        public Criteria andBusinessStartTimeLike(String value) {
+            addCriterion("BUSINESS_START_TIME like", value, "businessStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessStartTimeNotLike(String value) {
+            addCriterion("BUSINESS_START_TIME not like", value, "businessStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessStartTimeIn(List<String> values) {
             addCriterion("BUSINESS_START_TIME in", values, "businessStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessStartTimeNotIn(List<Date> values) {
+        public Criteria andBusinessStartTimeNotIn(List<String> values) {
             addCriterion("BUSINESS_START_TIME not in", values, "businessStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessStartTimeBetween(Date value1, Date value2) {
+        public Criteria andBusinessStartTimeBetween(String value1, String value2) {
             addCriterion("BUSINESS_START_TIME between", value1, value2, "businessStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessStartTimeNotBetween(Date value1, Date value2) {
+        public Criteria andBusinessStartTimeNotBetween(String value1, String value2) {
             addCriterion("BUSINESS_START_TIME not between", value1, value2, "businessStartTime");
             return (Criteria) this;
         }
@@ -455,52 +465,62 @@ public class ShopExample {
             return (Criteria) this;
         }
 
-        public Criteria andBusinessEndTimeEqualTo(Date value) {
+        public Criteria andBusinessEndTimeEqualTo(String value) {
             addCriterion("BUSINESS_END_TIME =", value, "businessEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessEndTimeNotEqualTo(Date value) {
+        public Criteria andBusinessEndTimeNotEqualTo(String value) {
             addCriterion("BUSINESS_END_TIME <>", value, "businessEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessEndTimeGreaterThan(Date value) {
+        public Criteria andBusinessEndTimeGreaterThan(String value) {
             addCriterion("BUSINESS_END_TIME >", value, "businessEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessEndTimeGreaterThanOrEqualTo(Date value) {
+        public Criteria andBusinessEndTimeGreaterThanOrEqualTo(String value) {
             addCriterion("BUSINESS_END_TIME >=", value, "businessEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessEndTimeLessThan(Date value) {
+        public Criteria andBusinessEndTimeLessThan(String value) {
             addCriterion("BUSINESS_END_TIME <", value, "businessEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessEndTimeLessThanOrEqualTo(Date value) {
+        public Criteria andBusinessEndTimeLessThanOrEqualTo(String value) {
             addCriterion("BUSINESS_END_TIME <=", value, "businessEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessEndTimeIn(List<Date> values) {
+        public Criteria andBusinessEndTimeLike(String value) {
+            addCriterion("BUSINESS_END_TIME like", value, "businessEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessEndTimeNotLike(String value) {
+            addCriterion("BUSINESS_END_TIME not like", value, "businessEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessEndTimeIn(List<String> values) {
             addCriterion("BUSINESS_END_TIME in", values, "businessEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessEndTimeNotIn(List<Date> values) {
+        public Criteria andBusinessEndTimeNotIn(List<String> values) {
             addCriterion("BUSINESS_END_TIME not in", values, "businessEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessEndTimeBetween(Date value1, Date value2) {
+        public Criteria andBusinessEndTimeBetween(String value1, String value2) {
             addCriterion("BUSINESS_END_TIME between", value1, value2, "businessEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andBusinessEndTimeNotBetween(Date value1, Date value2) {
+        public Criteria andBusinessEndTimeNotBetween(String value1, String value2) {
             addCriterion("BUSINESS_END_TIME not between", value1, value2, "businessEndTime");
             return (Criteria) this;
         }

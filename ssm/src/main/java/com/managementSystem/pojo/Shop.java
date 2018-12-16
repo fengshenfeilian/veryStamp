@@ -11,9 +11,9 @@ public class Shop {
 
     private String phone;
 
-    private Date businessStartTime;
+    private String businessStartTime;
 
-    private Date businessEndTime;
+    private String businessEndTime;
 
     private Date signupTime;
 
@@ -51,20 +51,20 @@ public class Shop {
         this.phone = phone == null ? null : phone.trim();
     }
 
-    public Date getBusinessStartTime() {
+    public String getBusinessStartTime() {
         return businessStartTime;
     }
 
-    public void setBusinessStartTime(Date businessStartTime) {
-        this.businessStartTime = businessStartTime;
+    public void setBusinessStartTime(String businessStartTime) {
+        this.businessStartTime = businessStartTime == null ? null : businessStartTime.trim();
     }
 
-    public Date getBusinessEndTime() {
+    public String getBusinessEndTime() {
         return businessEndTime;
     }
 
-    public void setBusinessEndTime(Date businessEndTime) {
-        this.businessEndTime = businessEndTime;
+    public void setBusinessEndTime(String businessEndTime) {
+        this.businessEndTime = businessEndTime == null ? null : businessEndTime.trim();
     }
 
     public Date getSignupTime() {

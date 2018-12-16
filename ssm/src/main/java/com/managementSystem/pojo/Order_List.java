@@ -25,6 +25,12 @@ public class Order_List {
 
     private String state;
 
+    private String resourceName;
+
+    private int countPerRecourse;
+
+    private double price;
+
     public String getOrderId() {
         return orderId;
     }
@@ -111,5 +117,29 @@ public class Order_List {
 
     public void setState(String state) {
         this.state = state == null ? null : state.trim();
+    }
+
+    public String getResourceName() {
+        return resourceName;
+    }
+
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
+    }
+
+    public int getCountPerRecourse() {
+        return countPerRecourse;
+    }
+
+    public void setCountPerRecourse(int countPerRecourse) {
+        this.countPerRecourse = countPerRecourse;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

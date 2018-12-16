@@ -6,8 +6,8 @@
     <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
     <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
     <result column="PHONE" jdbcType="VARCHAR" property="phone" />
-    <result column="BUSINESS_START_TIME" jdbcType="TIMESTAMP" property="businessStartTime" />
-    <result column="BUSINESS_END_TIME" jdbcType="TIMESTAMP" property="businessEndTime" />
+    <result column="BUSINESS_START_TIME" jdbcType="VARCHAR" property="businessStartTime" />
+    <result column="BUSINESS_END_TIME" jdbcType="VARCHAR" property="businessEndTime" />
     <result column="SIGNUP_TIME" jdbcType="TIMESTAMP" property="signupTime" />
     <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
   </resultMap>
@@ -108,7 +108,7 @@
       PHONE, BUSINESS_START_TIME, BUSINESS_END_TIME, 
       SIGNUP_TIME, ADDRESS)
     values (#{shopId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{businessStartTime,jdbcType=TIMESTAMP}, #{businessEndTime,jdbcType=TIMESTAMP}, 
+      #{phone,jdbcType=VARCHAR}, #{businessStartTime,jdbcType=VARCHAR}, #{businessEndTime,jdbcType=VARCHAR}, 
       #{signupTime,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.managementSystem.pojo.Shop">
@@ -153,10 +153,10 @@
         #{phone,jdbcType=VARCHAR},
       </if>
       <if test="businessStartTime != null">
-        #{businessStartTime,jdbcType=TIMESTAMP},
+        #{businessStartTime,jdbcType=VARCHAR},
       </if>
       <if test="businessEndTime != null">
-        #{businessEndTime,jdbcType=TIMESTAMP},
+        #{businessEndTime,jdbcType=VARCHAR},
       </if>
       <if test="signupTime != null">
         #{signupTime,jdbcType=TIMESTAMP},
@@ -188,10 +188,10 @@
         PHONE = #{record.phone,jdbcType=VARCHAR},
       </if>
       <if test="record.businessStartTime != null">
-        BUSINESS_START_TIME = #{record.businessStartTime,jdbcType=TIMESTAMP},
+        BUSINESS_START_TIME = #{record.businessStartTime,jdbcType=VARCHAR},
       </if>
       <if test="record.businessEndTime != null">
-        BUSINESS_END_TIME = #{record.businessEndTime,jdbcType=TIMESTAMP},
+        BUSINESS_END_TIME = #{record.businessEndTime,jdbcType=VARCHAR},
       </if>
       <if test="record.signupTime != null">
         SIGNUP_TIME = #{record.signupTime,jdbcType=TIMESTAMP},
@@ -210,8 +210,8 @@
       USER_NAME = #{record.userName,jdbcType=VARCHAR},
       PASSWORD = #{record.password,jdbcType=VARCHAR},
       PHONE = #{record.phone,jdbcType=VARCHAR},
-      BUSINESS_START_TIME = #{record.businessStartTime,jdbcType=TIMESTAMP},
-      BUSINESS_END_TIME = #{record.businessEndTime,jdbcType=TIMESTAMP},
+      BUSINESS_START_TIME = #{record.businessStartTime,jdbcType=VARCHAR},
+      BUSINESS_END_TIME = #{record.businessEndTime,jdbcType=VARCHAR},
       SIGNUP_TIME = #{record.signupTime,jdbcType=TIMESTAMP},
       ADDRESS = #{record.address,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -231,10 +231,10 @@
         PHONE = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="businessStartTime != null">
-        BUSINESS_START_TIME = #{businessStartTime,jdbcType=TIMESTAMP},
+        BUSINESS_START_TIME = #{businessStartTime,jdbcType=VARCHAR},
       </if>
       <if test="businessEndTime != null">
-        BUSINESS_END_TIME = #{businessEndTime,jdbcType=TIMESTAMP},
+        BUSINESS_END_TIME = #{businessEndTime,jdbcType=VARCHAR},
       </if>
       <if test="signupTime != null">
         SIGNUP_TIME = #{signupTime,jdbcType=TIMESTAMP},
@@ -250,8 +250,8 @@
     set USER_NAME = #{userName,jdbcType=VARCHAR},
       PASSWORD = #{password,jdbcType=VARCHAR},
       PHONE = #{phone,jdbcType=VARCHAR},
-      BUSINESS_START_TIME = #{businessStartTime,jdbcType=TIMESTAMP},
-      BUSINESS_END_TIME = #{businessEndTime,jdbcType=TIMESTAMP},
+      BUSINESS_START_TIME = #{businessStartTime,jdbcType=VARCHAR},
+      BUSINESS_END_TIME = #{businessEndTime,jdbcType=VARCHAR},
       SIGNUP_TIME = #{signupTime,jdbcType=TIMESTAMP},
       ADDRESS = #{address,jdbcType=VARCHAR}
     where SHOP_ID = #{shopId,jdbcType=VARCHAR}

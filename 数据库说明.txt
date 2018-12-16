@@ -1,0 +1,14 @@
+order_list表示订单：
+PRINT_FORMAT打印格式:
+single：表示单面打印
+double；表示双面打印
+
+STATE订单状态：
+toPrint：下单完成待打印
+toReceive：打印完成待取货
+conpleted：订单完成
+
+resource表示资源：
+RES_TYPE资源类型：
+shop：店家自有资源
+consumer：客户上传资源

@@ -139,17 +139,17 @@
                 </tr>
                 </thead>
                 <tbody align="center">
-                <c:forEach items="${studentCourse}" var="studentCourse">
+                <c:forEach items="${orders}" var="order">
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>${order.orderId}</td>
+                        <td>${order.orderTime}</td>
+                        <td>${order.resourceName}</td>
+                        <td>${order.printFormat}</td>
+                        <td>${order.printCount}</td>
+                        <td>${order.countPerRecourse}</td>
+                        <td>${order.price}</td>
+                        <td>${order.targetTakeTime}</td>
+                        <td>${order.finishTime}</td>
                     </tr>
                 </c:forEach>
                 </tbody>

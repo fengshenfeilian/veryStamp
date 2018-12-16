@@ -83,17 +83,17 @@
 
     <!-- 左侧导航栏 -->
     <ul id="menu" class="nav">
-        <li class="dash"><a href="/student/home" title=""><span>信息管理</span></a></li>
-        <li class="tables"><a href="/student/course" title="" class="active"><span>订单管理</span></a>
+        <li class="dash"><a href="/shop/showInfo" title=""><span>信息管理</span></a></li>
+        <li class="tables"><a href="#" title="" class="active"><span>订单管理</span></a>
             <ul class="sub">
-                <li class="this"><a href="/student/assignment" title="">待收货订单</a></li>
-                <li><a href="/student/uploadAssignment" title="">未完成订单</a></li>
-                <li><a href="/student/uploadAssignment" title="">已完成订单</a></li>
+                <li class="this"><a href="/shop/showToPrintOrder" title="">待打印订单</a></li>
+                <li><a href="/shop/showToReceiveOrder" title="">待取货订单</a></li>
+                <li><a href="/shop/showCompletedOrder" title="">已完成订单</a></li>
             </ul>
         </li>
-        <li class="tables"><a href="#" title="" class="exp"><span>资源管理</span><strong>2</strong></a>
+        <li class="tables"><a href="/shop/showResources" title="" class="exp"><span>资源管理</span><strong>2</strong></a>
         </li>
-        <li class="tables"><a href="#" title="" class="exp"><span>营业统计</span><strong>3</strong></a>
+        <li class="tables"><a href="/shop/shopStatistics" title="" class="exp"><span>营业统计</span><strong>3</strong></a>
         </li>
     </ul>
 </div>

@@ -124,32 +124,42 @@
         <div class="widget">
             <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
                 <h6>资源列表</h6></div>
-            <form action="${pageContext.request.contextPath}/teacher/addDailyScore" method="post" enctype="multipart/form-data">
-                <input type="file" name="filename"  value="" />
-                <input type="submit" name=""  value="上传资源" />
+            <form action="${pageContext.request.contextPath}/shop/addResource" method="post" enctype="multipart/form-data">
+                <fieldset>
+                    <div class="formRow">
+                        <input type="file" name="filename"  value="" />
+                        <input type="submit" name=""  value="上传资源" />
+                    </div>
+                    <div class="formRow">
+                        <label for="login">资源名称</label>
+                        <div class="loginInput"><input type="text" name="resName" class="validate[required]" id="login" /></div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="formRow">
+                        <label for="pass">页数</label>
+                        <div class="loginInput"><input type="text" name="pageCount" class="validate[required]" id="pass" /></div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="formRow">
+                        <label for="pass">简介</label>
+                        <div class="loginInput"><input type="text" name="description" class="validate[required]" id="pass" /></div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="formRow">
+                        <label for="pass">价格</label>
+                        <div class="loginInput"><input type="text" name="price" class="validate[required]" id="pass" /></div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="loginControl">
+                        <input type="submit" value="确认上传" class="dredB logMeIn" />
+                        <div class="clear"></div>
+                    </div>
+                </fieldset>
             </form>
-            <table cellpadding="0" cellspacing="0" width="100%" class="display dTable" id="res1">
-                <thead>
-                <tr>
-                    <td class="sortCol"><div>资源名称<span></span></div></td>
-                    <td class="sortCol"><div>资源描述<span></span></div></td>
-                    <td class="sortCol"><div>资源页数<span></span></div></td>
-                    <td class="sortCol"><div>资源价格<span></span></div></td>
-                    <td class="sortCol"><div>操作<span></span></div></td>
-                </tr>
-                </thead>
-                <tbody align="center">
-                <c:forEach items="${resources}" var="resource">
-                    <tr>
-                        <td>${resource.resName}</td>
-                        <td>${resource.description}</td>
-                        <td>${resource.pageCount}</td>
-                        <td>${resource.totalPrice}</td>
-                        <td><a href="/shop/deleteResource?resourceId=${resource.resId}"><button class="blueB">删除</button></a></td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
         </div>
     </div>
 

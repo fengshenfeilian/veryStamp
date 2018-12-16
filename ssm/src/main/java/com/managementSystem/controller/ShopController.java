@@ -12,9 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -188,5 +190,46 @@ public class ShopController {
     public String showStatistics(Model model)
     {
         return "shop/statistics";
+    }
+
+    @RequestMapping(value = "/addResource", method = RequestMethod.POST)
+    public String addResource(@RequestParam(value = "filename") MultipartFile file,
+                              @RequestParam(value = "resName") String resName,
+                              @RequestParam(value = "pageCount") String pageCount,
+                              @RequestParam(value = "description") String description,
+                              @RequestParam(value = "price") String price,
+                              HttpSession session, Model model)
+    {
+        Shop shop = (Shop) session.getAttribute("currentShop");
+        if(file == null)
+        {
+            model.addAttribute("message", "未选择文件");
+        }
+        else
+        {
+            String name = file.getOriginalFilename();
+            //进一步判断文件是否为空（即判断其大小是否为0或其名称是否为null）
+            long size=file.getSize();
+            if(name==null || ("").equals(name) && size==0)
+            {
+                model.addAttribute("message", "未选择文件");
+            }
+            else
+            {
+                shopService.saveResource(name, file);
+                Resource resource = new Resource();
+                resource.setResName(resName);
+                resource.setShopId(shop.getShopId());
+                resource.setResId(resName+shop.getShopId());
+                resource.setDescription(description);
+                resource.setPageCount(Integer.parseInt(pageCount));
+                resource.setTotalPrice(new BigDecimal(Double.parseDouble(price)));
+                resource.setResType("shop");
+                model.addAttribute("message", "上传成功");
+            }
+        }
+        List<Resource> resources = shopService.getResources(shop.getShopId(), "shop");
+        model.addAttribute("resources", resources);
+        return "shop/resourceManager";
     }
 }

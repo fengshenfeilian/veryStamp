@@ -8,7 +8,10 @@ import com.managementSystem.dao.Shop_PriceMapper;
 import com.managementSystem.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -57,5 +60,18 @@ public class ShopService {
 
     public void deleteResource(String resourceId) {
         resourceMapper.deleteByPrimaryKey(resourceId);
+    }
+
+    public void saveResource(String name, MultipartFile Mfile) {
+        CommonsMultipartFile cf = (CommonsMultipartFile) Mfile;
+        File file = new File("D:/veryStamp/resources");
+        if (!file.exists()) file.mkdirs();
+        File newFile = new File("D:/veryStamp/resources/" + name);
+        try {
+            cf.getFileItem().write(newFile);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

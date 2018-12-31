@@ -4,6 +4,7 @@ import com.managementSystem.pojo.Shop;
 import com.managementSystem.pojo.ShopExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 public interface ShopMapper {
     long countByExample(ShopExample example);
@@ -27,4 +28,7 @@ public interface ShopMapper {
     int updateByPrimaryKeySelective(Shop record);
 
     int updateByPrimaryKey(Shop record);
+
+    @Select("select * from verystamp.shop")
+    List<Shop> findAll();
 }

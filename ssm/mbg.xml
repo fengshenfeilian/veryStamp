@@ -14,7 +14,7 @@
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/verystamp"
                         userId="root"
-                        password="">
+                        password="abc126756">
         </jdbcConnection>
 
         <javaTypeResolver >

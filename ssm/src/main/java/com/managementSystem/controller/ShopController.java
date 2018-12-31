@@ -26,6 +26,7 @@ public class ShopController {
     @Autowired
     ShopService shopService;
 
+
     @RequestMapping(value = "/showInfo")
     public String showInfo(Model model, HttpSession session, HttpServletRequest request)
     {

@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-	<title>作业管理系统</title>
+	<title>好打印</title>
 	<link href="/static/css/main.css" rel="stylesheet" type="text/css" />
 
 	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
@@ -55,8 +55,9 @@
     <div class="wrapper">
         <div class="userNav">		
             <ul>
-                <li><a href="#" title=""><img src="/static/images/icons/topnav/mainWebsite.png" alt="" /><span>首页</span></a></li>
-                <li><a href="#" title=""><img src="/static/images/icons/topnav/profile.png" alt="" /><span>联系我们</span></a></li>
+                <li><a href="/user/loginPage" title=""><img src="/static/images/icons/topnav/mainWebsite.png" alt="" /><span>登录</span></a></li>
+				<li><a href="/user/registerPage" title=""><img src="/static/images/icons/topnav/profile.png" alt="" /><span>注册</span></a></li>
+				<li><a href="/user/contactPage" title=""><img src="/static/images/icons/topnav/profile.png" alt="" /><span>联系我们</span></a></li>
             </ul> 
         </div>
         <div class="clear"></div>
@@ -71,25 +72,24 @@
         <div class="title"><img src="/static/images/icons/dark/files.png" alt="" class="titleIcon" /><h6>登录</h6></div>
        <!-- 表单数据 -->
 		<form action="${pageContext.request.contextPath}/user/login" method="post" id="validate" class="form">
-            <fieldset>
+
                 <div class="formRow">
-                    <label for="login">用户号</label>
-                    <div class="loginInput"><input type="text" name="userId" class="validate[required]" id="login" /></div>
+					 <label for="login">账户</label>
+                    <div class="loginInput"><input type="text" name="userId" class="validate[required]" id="login" placeholder="请输入邮箱号"/></div>
                     <div class="clear"></div>
                 </div>
                 
                 <div class="formRow">
                     <label for="pass">密码</label>
-                    <div class="loginInput"><input type="password" name="password" class="validate[required]" id="pass" /></div>
+                    <div class="loginInput"><input type="password" name="password" class="validate[required]" id="pass" placeholder="请输入密码" /></div>
                     <div class="clear"></div>
                 </div>
                 
                 <div class="loginControl">
-                    <div class="rememberMe"><input type="checkbox" id="remMe" name="remMe" /><label for="remMe">记住我</label></div>
+				<%--<div class="rememberMe"><input type="checkbox" id="remMe" name="remMe" /><label for="remMe">记住我</label></div>--%>
                     <input type="submit" value="登录" class="dredB logMeIn" />
                     <div class="clear"></div>
                 </div>
-            </fieldset>
         </form>
     </div>
 </div>    

@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-    <title>作业管理系统</title>
+    <title>好打印</title>
     <link href="/static/css/main.css" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript" src="/static/js/jquery.min.js"></script>
@@ -83,18 +83,10 @@
 
     <!-- 左侧导航栏 -->
     <ul id="menu" class="nav">
-        <li class="dash"><a href="/shop/showInfo" class="active" title=""><span>信息管理</span></a></li>
-        <li class="tables"><a href="#" title="" class=""><span>订单管理</span></a>
-            <ul class="sub">
-                <li class="this"><a href="/shop/showToPrintOrder" title="">待打印订单</a></li>
-                <li><a href="/shop/showToReceiveOrder" title="">待取货订单</a></li>
-                <li><a href="/shop/showCompletedOrder" title="">已完成订单</a></li>
-            </ul>
-        </li>
-        <li class="tables"><a href="/shop/showResources" title="" class="exp"><span>资源管理</span><strong>2</strong></a>
-        </li>
-        <li class="tables"><a href="/shop/shopStatistics" title="" class="exp"><span>营业统计</span><strong>3</strong></a>
-        </li>
+        <li class="dash"><a href="/admin/home"><span>主页</span></a></li>
+        <li class="table"><a href="/admin/consumerManage"><span>用户管理</span></a></li>
+        <li class="table"><a href="/admin/shopManage" class="active"><span>商户管理</span></a></li>
+
     </ul>
 </div>
 
@@ -103,7 +95,7 @@
     <!-- 顶部导航栏 -->
     <div class="topNav">
         <div class="wrapper">
-            <div class="welcome"><a href="#" title=""><img src="/static/images/userPic.png" alt="" /></a><span>欢迎<strong>【<c:out value="${user.userName}"/>】</strong>使用本系统</span></div>
+            <div class="welcome"><a href="#" title=""><img src="/static/images/userPic.png" alt="" /></a><span>欢迎<strong>【<c:out value="${currentAdmin.userName}"/>】</strong>使用本系统</span></div>
 
             <div class="userNav">
                 <ul>
@@ -117,22 +109,43 @@
         </div>
     </div>
 
-
-
+    <div class="line"></div>
     <%--动态数据表--%>
     <div class="wrapper">
         <div class="widget">
             <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
-                <h6>个人信息</h6></div>
-            <p>用户名:${shop.userName}</p>
-            <p>联系电话:${shop.shopId}</p>
-            <p>联系地址:${shop.address}</p>
-            <p>营业时间:${shop.businessStartTime}-${shop.businessEndTime}</p>
-            <p>注册时间:${shop.signupTime}</p>
-            <a href="/shop/goModifyInfo">修改信息</a>
+                <h6>商户列表</h6></div>
+            <table cellpadding="0" cellspacing="0" width="100%" class="display dTable" id="res1">
+                <thead>
+                <tr>
+                    <td class="sortCol"><div>邮箱<span></span></div></td>
+                    <td class="sortCol"><div>商户名<span></span></div></td>
+                    <td class="sortCol"><div>地址<span></span></div></td>
+                    <td class="sortCol"><div>联系电话<span></span></div></td>
+                    <td class="sortCol"><div>营业开始时间<span></span></div></td>
+                    <td class="sortCol"><div>营业结束时间<span></span></div></td>
+                    <td class="sortCol"><div>选项<span></span></div></td>
+                </tr>
+                </thead>
+                <tbody align="center">
+                <c:forEach items="${shopList}" var="studentCourse" varStatus="loop">
+                    <tr>
+                        <td>${shopList[loop.count-1].shopId}</td>
+                        <td>${shopList[loop.count-1].userName}</td>
+                        <td>${shopList[loop.count-1].address}</td>
+                        <td>${shopList[loop.count-1].phone}</td>
+                        <td>${shopList[loop.count-1].businessStartTime}</td>
+                        <td>${shopList[loop.count-1].businessEndTime}</td>
+                            <%--
+                            <a href="/student/courseInfo?courseId=${studentCourse.courseId}"><button class="blueB">查看课程信息</button></a>
+                            --%>
+                        <td></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
     </div>
-
 
 
     <!-- Footer line -->

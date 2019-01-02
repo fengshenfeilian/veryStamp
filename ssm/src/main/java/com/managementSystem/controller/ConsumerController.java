@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -86,11 +87,19 @@ public class ConsumerController {
         }
 
     }
+    //************************************需要改
     @RequestMapping(value = "/printShopOrder")
     public String listShopResource(Model model, HttpSession session, HttpServletRequest request)
     {
         Consumer consumer = (Consumer) session.getAttribute("currentConsumer");
         model.addAttribute("consumer",consumer);
+        //店家资源列表
+        List<Resource> resourceList = consumerService.getShopResourceList();
+        model.addAttribute("resourceList",resourceList);
+        //根据资源列表获取店家列表
+        List<Shop> shopList = consumerService.getShopListByResourceList(resourceList);
+        model.addAttribute("shopList",shopList);
+
         return "/consumer/listShopResource";
     }
 
@@ -162,31 +171,43 @@ public class ConsumerController {
         return "/consumer/credit";
     }
 
+    //新建一个订单
     @RequestMapping(value = "/addMission",method = RequestMethod.POST)
     public String addMission(@RequestParam(value = "printLayout")String printLayout,
                              @RequestParam(value = "printNumber")String printNumber,
                              @RequestParam(value = "printShop")String printShopId,
-                             @RequestParam(value = "getTime") String  getTime,
-                             @RequestParam(value = "filename") MultipartFile  file,
+                             @RequestParam(value = "getTime") String getTime,
+                             @RequestParam(value = "filename") MultipartFile file,
                              Model model, HttpSession session, HttpServletRequest request) {
         Consumer consumer = (Consumer) session.getAttribute("currentConsumer");
+        Date curDateTime = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String curDateTimeStr = df.format(curDateTime);
+        System.out.println(curDateTimeStr);
+        getTime = getTime.replace('T', ' ');
+        System.out.println(getTime);
 
+        //取货时间不合法，则订单创建失败
+        if(getTime.compareTo(curDateTimeStr) < 0){
+            model.addAttribute("message","取货时间不能早于当前时间");
+            return "redirect:/consumer/printSelfFile";
+        }
+        //ResId : 下单时间 + 文件名 + 用户ID
+        String resId = curDateTime.toString() + file.getOriginalFilename() + consumer.getConsumerId();
+        String resType = "consumer";
+        //创建并插入(用户创建的)Resource对象
         Resource resource = new Resource();
-        resource.setResType("consumer");
-        resource.setShopId(printShopId);
         resource.setResName(file.getOriginalFilename());
-        resource.setResId(file.getOriginalFilename()+consumer.getConsumerId());
+        resource.setResId(resId);
+        resource.setResType(resType);
+        //resource.setShopId(printShopId);
 
-        String resId = consumerService.addResource(resource);
-
-        System.out.println(resId);
-
+        consumerService.addResource(resource);
         consumerService.saveFile(file);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date takeTime = sdf.parse(getTime);
-
             Order_List orderList = new Order_List();
             orderList.setShopId(printShopId);
             orderList.setUserId(consumer.getConsumerId());
@@ -199,12 +220,11 @@ public class ConsumerController {
             orderList.setTargetTakeTime(takeTime);
             orderList.setOrderId(String.valueOf(now.getTime()));
             orderList.setResId(resId);
-
             consumerService.addOrder(orderList);
-            session.setAttribute("message", "提交成功");
-            return "/consumer/printSelfFile";
+            session.setAttribute("message", "订单创建成功");
+            return "/consumer/myOrderList";
         } catch (Exception e) {
-            System.out.println(e);
+            session.setAttribute("message", "订单创建失败");
             return "/consumer/printSelfFile";
         }
     }

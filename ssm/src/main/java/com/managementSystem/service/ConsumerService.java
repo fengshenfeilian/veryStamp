@@ -11,6 +11,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import java.io.File;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -58,7 +59,7 @@ public class ConsumerService {
     public void saveFile(MultipartFile file) {
         Calendar date = Calendar.getInstance();
         String datePath = date.get(Calendar.YEAR) + "/" + (date.get(Calendar.MONTH) + 1) + "/";
-        String rootPath = "E:/pro/file/";
+        String rootPath = "C:/VeryStamp/";
         String filename = file.getOriginalFilename();
         try {
             File destFile = new File(rootPath + datePath + filename);
@@ -73,10 +74,29 @@ public class ConsumerService {
         }
     }
 
+    public List<Resource> getShopResourceList()
+    {
+        ResourceExample resourceExample = new ResourceExample();
+        ResourceExample.Criteria criteria = resourceExample.createCriteria();
+        criteria.andResTypeEqualTo("商户");
+        return resourceMapper.selectByExample(resourceExample);
+    }
 
-    public String addResource(Resource resource) {
+    public List<Shop> getShopListByResourceList(List<Resource> resourceList)
+    {
+        List<Shop> shopList = new ArrayList<>();
+        for(Resource resource : resourceList)
+        {
+            Shop shop = shopMapper.selectByPrimaryKey(resource.getShopId());
+            if(shop != null){
+                shopList.add(shop);
+            }
+        }
+        return shopList;
+    }
+
+    public void addResource(Resource resource) {
         resourceMapper.insert(resource);
-        return resource.getResId();
     }
 
     public void addOrder(Order_List orderList) {

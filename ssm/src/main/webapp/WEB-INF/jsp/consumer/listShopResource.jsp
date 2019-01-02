@@ -120,15 +120,23 @@
         </div>
     </div>
 
+    <%--
+     <form action="${pageContext.request.contextPath}/consumer/inquiry" method="post" enctype="multipart/form-data">
+         <label class="text" >资源名</label>
+         <input type="text" name="inquiry_resource_content"  value="" />
+         <label class="text" >店名</label>
+         <input type="text" name="inquiry_shop_content" value="" />
+         <input type="submit" name=""  value="查询" />
+      </form>
+      --%>
+
+    <div class="line"></div>
     <div class="wrapper">
         <div class="widget">
-            <form action="${pageContext.request.contextPath}/consumer/inquiry" method="post" enctype="multipart/form-data">
-                <label class="text" >资源名</label>
-                <input type="text" name="inquiry_resource_content"  value="" />
-                <label class="text" >店名</label>
-                <input type="text" name="inquiry_shop_content" value="" />
-                <input type="submit" name=""  value="查询" />
-            </form>
+            <div class="title">
+                <img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
+                <h6>资源列表</h6>
+            </div>
             <table cellpadding="0" cellspacing="0" width="100%" class="display dTable" id="res1">
                 <thead>
                 <tr>
@@ -142,17 +150,17 @@
                 </tr>
                 </thead>
                 <tbody align="center">
-                <c:forEach items="${Resource}" var="resource">
+                <c:forEach items="${resourceList}" var="resource" varStatus="loop">
                     <tr>
-                        <td>${resource.resId}</td>
+                        <td>${resource.resName}</td>
                         <td>${resource.description}</td>
                         <td>${resource.pageCount}</td>
                         <td>${resource.totalPrice}</td>
-                        <td>${resource.shopId}</td>
-                        <td>${resource.phone}</td>
+                        <td>${shopList[loop.count-1].userName}</td>
+                        <td>${shopList[loop.count-1].phone}</td>
                         <td>
-                            <!-- a href="/consumer/printResource?resourceId=${resource.resId}" -->
-                            <button class="blueB">打印</button></--a></td>
+                            <button class="blueB">进入打印界面</button>
+                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>

@@ -103,6 +103,7 @@
 
 <!-- 右侧区域 -->
 <div id="rightSide">
+
     <!-- 顶部导航栏 -->
     <div class="topNav">
         <div class="wrapper">
@@ -120,38 +121,42 @@
         </div>
     </div>
 
+    <div class="line"></div>
+    <div class="wrapper">
+        <div class="widget">
+            <form action="${pageContext.request.contextPath}/consumer/changepswd" method="post" id="validate" class="form">
+                <fieldset>
+                    <div class="formRow">
+                        <label for="pass">用户名</label>
+                        <div class="loginInput"><input type="text" readonly value="${consumer.userName}"></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="formRow">
+                        <label for="pass">当前密码</label>
+                        <div class="loginInput"><input type="password" name="now_password" class="validate[required]" id="pass" /></div>
+                        <div class="clear"></div>
+                    </div>
 
-    <div>
-    <%--动态数据表--%>
-    <form action="${pageContext.request.contextPath}/consumer/changepswd" method="post" id="validate" class="form">
-        <fieldset>
-            <div class="formRow">
-                <p>用户名:${consumer.userName}</p>
-            </div>
-            <div class="formRow">
-                <label for="pass">当前密码</label>
-                <div class="loginInput"><input type="password" name="now_password" class="validate[required]" id="pass" /></div>
-                <div class="clear"></div>
-            </div>
+                    <div class="formRow">
+                        <label for="pass">新密码</label>
+                        <div class="loginInput"><input type="password" name="new_password" class="validate[required]" id="pass" /></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="formRow">
+                        <label for="pass">新密码确认</label>
+                        <div class="loginInput"><input type="password" name="re_new_password" class="validate[required]" id="pass" /></div>
+                        <div class="clear"></div>
+                    </div>
 
-            <div class="formRow">
-                <label for="pass">新密码</label>
-                <div class="loginInput"><input type="password" name="new_password" class="validate[required]" id="pass" /></div>
-                <div class="clear"></div>
-            </div>
-            <div class="formRow">
-                <label for="pass">新密码确认</label>
-                <div class="loginInput"><input type="password" name="re_new_password" class="validate[required]" id="pass" /></div>
-                <div class="clear"></div>
-            </div>
-
-            <div class="loginControl">
-                <input type="submit" value="修改" class="dredB logMeIn" />
-                <div class="clear"></div>
-            </div>
-        </fieldset>
-    </form>
+                    <div class="loginControl">
+                        <input type="submit" value="修改" class="dredB logMeIn" />
+                        <div class="clear"></div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
     </div>
+
     <!-- Footer line -->
     <div id="footer">
         <div class="wrapper">All rights reserved by <a href="http://hashmap.me">Marco Hao</a></div>

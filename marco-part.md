@@ -23,5 +23,19 @@ ID = 邮箱号（Count(Consumer(ID) + Shop(ID) + Admin(ID)) == 1,即在Consumer�
 
 对于手机号的前端校验，仅保证输入一定是数字的组合，未校验其是否严格满足11位手机号的格式
 
+##### 有关资源的约定
+
++ RES_TYPE = consumer ：	表示是用户上传的资源
+  + SHOP_ID这时实际应当赋值为CONSUMER_ID（当作命名失误处理）
+
++ RES_TYPE = shop : 	表示是商户所有的资源
 
 
+
+##### 订单状态
+
+toPrint : 等待打印
+
+toReceive:打印完成待取货
+
+completed：订单已完成

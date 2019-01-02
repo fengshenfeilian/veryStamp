@@ -120,50 +120,47 @@
     </div>
 
 
-
-    <%--动态数据表--%>
+    <%--表单：打印自有资源--%>
     <div class="wrapper">
         <div class="widget">
-            <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
-                <h6>上传资源</h6></div>
-            <form action="${pageContext.request.contextPath}/consumer/addMission" method="post" enctype="multipart/form-data">
+            <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" /><h6>打印自有资源</h6></div>
+            <form action="${pageContext.request.contextPath}/consumer/addMission" id="validate" method="post" enctype="multipart/form-data">
                 <fieldset>
                     <div class="formRow">
-                        <label for="printLayout">打印格式</label>
-                        <div class="loginInput">
-                                <select class="validate[required]" id="printLayout" name="printLayout" >
-                                    <option value="single" selected="selected">单面</option>
-                                    <option value="double">双面</option>
-                                </select>
-                        </div>
+                        <label for="printLayout" style="width:10%">打印格式</label>
+                        <select class="validate[required]" id="printLayout" name="printLayout" >
+                            <option value="single" selected="selected">单面</option>
+                            <option value="double">双面</option>
+                        </select>
                         <div class="clear"></div>
                     </div>
                     <div class="formRow">
-                        <label for="printNumber">打印份数</label>
-                        <div class="loginInput"><input type="number" name="printNumber" class="validate[required]" id="printNumber" min="1" value="1"/></div>
+                        <label for="printShop" style="width:10%">打印店</label>
+                        <select name="printShop" class="validate[required]" id="printShop">
+                           <option value="0" >--请选择--</OPTION>
+                            <c:forEach items="${shopNameList}" var="p">
+                                <option value="${p.shopId}">${p.userName}</option>
+                            </c:forEach>
+                        </select>
                         <div class="clear"></div>
                     </div>
                     <div class="formRow">
-                        <label for="printShop">打印店</label>
-                        <div class="loginInput">
-                            <select name="printShop" class="validate[required]" id="printShop">
-                               <option value="0">--请选择--</OPTION>
-                                <c:forEach items="${shopNameList}" var="p">
-                                    <option value="${p.shopId}">${p.userName}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
+                        <label for="printNumber" style="width:10%">打印份数</label>
+                        <input type="number" name="printNumber" class="validate[required]" id="printNumber" min="1" value="1" style="width:16%"/>
                         <div class="clear"></div>
                     </div>
                     <div class="formRow">
-                        <label for="getTime">取货时间</label>
-                        <div class="loginInput"><input type="date" name="getTime" class="validate[required]" id="getTime"  />
-                            </div>
+                        <label for="getTime" style="width:10%">取货时间</label>
+                        <input type="datetime-local" name="getTime" class="validate[required]" id="getTime" style="width:16%"/>
                         <div class="clear"></div>
                     </div>
                     <div class="formRow">
-                        <input type="file" name="filename"  value="" />
-                        <input type="submit" name=""  value="上传资源" />
+                        <label style="width:10%">上传资源</label>
+                        <input type="file" name="filename"  id="fileResource" class="validate[required]" />
+                    </div>
+                    <div class="formRow">
+                        <input type="submit" value="创建订单" class="blueB logMeIn" />
+                        <div class="clear"></div>
                     </div>
                 </fieldset>
             </form>

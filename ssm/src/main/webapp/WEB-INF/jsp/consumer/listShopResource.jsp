@@ -159,7 +159,8 @@
                         <td>${shopList[loop.count-1].userName}</td>
                         <td>${shopList[loop.count-1].phone}</td>
                         <td>
-                            <button class="blueB">进入打印界面</button>
+                            <a href="/consumer/shopResPrint?resId=${resource.resId}"><button class="blueB">进入打印界面</button>
+                            </a>
                         </td>
                     </tr>
                 </c:forEach>

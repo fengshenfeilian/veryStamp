@@ -142,14 +142,14 @@
                 </tr>
                 </thead>
                 <tbody align="center">
-                <c:forEach items="${toPrintOrderList}" var="order">
+                <c:forEach items="${toPrintOrderList}" var="order" varStatus="loop">
                     <tr>
                         <td>${order.state}</td>
                         <td>${order.resourceName}</td>
                         <td>${order.printFormat}</td>
                         <td>${order.printCount}</td>
                         <td>${order.countPerRecourse}</td>
-                        <td>${order.price}</td>
+                        <td>${toPrintResList[loop.count-1].totalPrice}</td>
                         <td>${order.shopId}</td>
                         <td>${order.orderTime}</td>
                         <td>${order.targetTakeTime}</td>
@@ -180,14 +180,14 @@
                 </tr>
                 </thead>
                 <tbody align="center">
-                <c:forEach items="${toReceiveOrderList}" var="order">
+                <c:forEach items="${toReceiveOrderList}" var="order" varStatus="loop">
                     <tr>
                         <td>${order.state}</td>
                         <td>${order.resourceName}</td>
                         <td>${order.printFormat}</td>
                         <td>${order.printCount}</td>
                         <td>${order.countPerRecourse}</td>
-                        <td>${order.price}</td>
+                        <td>${toReceiveResList[loop.count-1].totalPrice}</td>
                         <td>${order.shopId}</td>
                         <td>${order.orderTime}</td>
                         <td>${order.readyTime}</td>
@@ -218,14 +218,14 @@
                 </tr>
                 </thead>
                 <tbody align="center">
-                <c:forEach items="${completeOrderList}" var="order">
+                <c:forEach items="${completeOrderList}" var="order" varStatus="loop">
                     <tr>
                         <td>${order.state}</td>
                         <td>${order.resourceName}</td>
                         <td>${order.printFormat}</td>
                         <td>${order.printCount}</td>
                         <td>${order.countPerRecourse}</td>
-                        <td>${order.price}</td>
+                        <td>${completeResList[loop.count-1].totalPrice}</td>
                         <td>${order.shopId}</td>
                         <td>${order.orderTime}</td>
                         <td>${order.finishTime}</td>

@@ -3,7 +3,9 @@ package com.managementSystem.service;
 
 import com.managementSystem.dao.*;
 import com.managementSystem.pojo.*;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -78,7 +80,7 @@ public class ConsumerService {
     {
         ResourceExample resourceExample = new ResourceExample();
         ResourceExample.Criteria criteria = resourceExample.createCriteria();
-        criteria.andResTypeEqualTo("商户");
+        criteria.andResTypeEqualTo("shop");
         return resourceMapper.selectByExample(resourceExample);
     }
 
@@ -169,6 +171,27 @@ public class ConsumerService {
             }
         }
         return list;
+    }
+
+    public Resource getResourceById(String resId)
+    {
+        return resourceMapper.selectByPrimaryKey(resId);
+    }
+
+    public Shop getShopByResId(String resId)
+    {
+        return  shopMapper.selectByPrimaryKey(resId);
+    }
+
+    public List<Resource> getResListByOrderList(List<Order_List> orderList)
+    {
+        List<Resource> resList = new ArrayList<>();
+        for(Order_List order : orderList)
+        {
+            Resource res = resourceMapper.selectByPrimaryKey(order.getResId());
+            resList.add(res);
+        }
+        return resList;
     }
 
 }

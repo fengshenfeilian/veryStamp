@@ -87,7 +87,6 @@ public class ConsumerController {
         }
 
     }
-    //************************************需要改
     @RequestMapping(value = "/printShopOrder")
     public String listShopResource(Model model, HttpSession session, HttpServletRequest request)
     {
@@ -101,6 +100,22 @@ public class ConsumerController {
         model.addAttribute("shopList",shopList);
 
         return "/consumer/listShopResource";
+    }
+
+    @RequestMapping(value = "/shopResPrint")
+    public String goShopResPrint(Model model, HttpSession session, HttpServletRequest request)
+    {
+        String resId = request.getParameter("resId");
+        Resource resource = consumerService.getResourceById(resId);
+        model.addAttribute("resource",resource);
+        if(!resource.getShopId().isEmpty()){
+            Shop shop = consumerService.getShopByResId(resource.getShopId());
+            model.addAttribute("shop",shop);
+        }
+
+        Consumer consumer = (Consumer) session.getAttribute("currentConsumer");
+        model.addAttribute("consumer",consumer);
+        return "consumer/shopResPrintPage";
     }
 
     @RequestMapping(value = "/inquiry",method = RequestMethod.POST)
@@ -145,10 +160,19 @@ public class ConsumerController {
         List<Order_List> toReceiveOrderList = consumerService.getToReceiveOrderList(consumer.getConsumerId());
         List<Order_List> completeOrderList = consumerService.getCompleteOrderList(consumer.getConsumerId());
 
-
         model.addAttribute("toPrintOrderList",toPrintOrderList);
         model.addAttribute("toReceiveOrderList",toReceiveOrderList);
         model.addAttribute("completeOrderList",completeOrderList);
+
+        List<Resource> toPrintResList = consumerService.getResListByOrderList(toPrintOrderList);
+        List<Resource> toReceiveResList = consumerService.getResListByOrderList(toReceiveOrderList);
+        List<Resource> completeResList = consumerService.getResListByOrderList(completeOrderList);
+
+        model.addAttribute("toPrintResList",toPrintResList);
+        model.addAttribute("toReceiveResList",toReceiveResList);
+        model.addAttribute("completeResList",completeResList);
+
+
         return "/consumer/myOrderList";
     }
 
@@ -169,7 +193,55 @@ public class ConsumerController {
         return "/consumer/credit";
     }
 
-    //新建一个订单
+    //以商户资源创建订单
+    @RequestMapping(value = "/createShopResOrder", method = RequestMethod.POST)
+    public String goCreateShopResOrder(Model model, HttpSession session, HttpServletRequest request)
+    {
+        //获取当前用户
+        Consumer consumer = (Consumer) session.getAttribute("currentConsumer");
+        //获取资源
+        String resId = request.getParameter("resId");
+        Resource resource = consumerService.getResourceById(resId);
+        //获取打印格式
+        String layout = request.getParameter("printLayout");
+        String number = request.getParameter("printNumber");
+        String getTime = request.getParameter("getTime");
+        getTime = getTime.replace('T', ' ') + ":00";
+
+        Date curDateTime = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String curDateTimeStr = df.format(curDateTime);
+        //取货时间不合法，则订单创建失败,跳转回商户资源列表
+        if(getTime.compareTo(curDateTimeStr) < 0){
+            model.addAttribute("message","取货时间不能早于当前时间");
+            return "redirect:/consumer/printShopOrder";
+        }
+        //若订单创建成功，则返回订单列表
+        try{
+            Order_List order = new Order_List();
+            order.setOrderId(resId + ' ' + consumer.getConsumerId() + ' ' + resource.getShopId());
+            order.setShopId(resource.getShopId());
+            order.setUserId(consumer.getConsumerId());
+            order.setResId(resource.getResId());
+            order.setPrintFormat(layout);
+            order.setPrintCount(Integer.parseInt(number));
+            order.setOrderTime(curDateTime); //下单时间 = 当前时间
+            order.setState("等待打印"); //订单状态  = 等待打印
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date targetTakeTime = sdf.parse(getTime);
+            System.out.println(targetTakeTime.toString());
+            order.setTargetTakeTime(targetTakeTime);
+            consumerService.addOrder(order);
+            session.setAttribute("message", "订单创建成功");
+            return "redirect:/consumer/myOrder";
+        }catch (Exception e){
+            model.addAttribute("message","订单创建失败");
+            return "redirect:/consumer/printShopOrder";
+        }
+
+    }
+
+    //以用户上传资源创建订单
     @RequestMapping(value = "/addMission",method = RequestMethod.POST)
     public String addMission(@RequestParam(value = "printLayout")String printLayout,
                              @RequestParam(value = "printNumber")String printNumber,
@@ -196,7 +268,6 @@ public class ConsumerController {
         resource.setResName(file.getOriginalFilename());
         resource.setResId(resId);
         resource.setResType(resType);
-
         try {
             //插入Resource记录
             consumerService.addResource(resource);

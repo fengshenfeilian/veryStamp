@@ -85,18 +85,18 @@
     <ul id="menu" class="nav">
         <li class="dash"><a href="/consumer/showInfo" class="" title=""><span>信息管理</span></a>
             <ul class="sub">
-                <li class = ""><a href="/consumer/showInfo" title="">我的信息</a></li>
-                <li ><a href="/consumer/changepassword" title="">修改密码</a></li>
+                <li ><a href="/consumer/showInfo" title="">我的信息</a></li>
+                <li class=""><a href="/consumer/changepassword" title="">修改密码</a></li>
             </ul>
         </li>
-        <li class="tables"><a href="#" title="" class=""><span>新建订单</span></a>
+        <li class="tables"><a href="#" title="" class="active"><span>新建订单</span></a>
             <ul class="sub">
-                <li class=""><a href="/consumer/printShopOrder" title="">打印店家资源</a></li>
+                <li class="this"><a href="/consumer/printShopOrder" title="">打印店家资源</a></li>
                 <li class=""><a href="/consumer/printMyOrder" title="">打印自有资源</a></li>
             </ul>
         </li>
-        <li class="dash"><a href="/consumer/myOrder" title="" class="active"><span>我的订单</span></a></li>
-        <li class="dash"><a href="/consumer/showcredit" title="" class=""><span>财务管理</span></a>
+        <li class="tables"><a href="/consumer/myOrder" title="" class=""><span>我的订单</span></a></li>
+        <li class="tables"><a href="/consumer/showcredit" title="" class=""><span>财务管理</span></a>
         </li>
     </ul>
 </div>
@@ -120,132 +120,77 @@
         </div>
     </div>
 
-
     <div class="line"></div>
-    <%--动态数据表--%>
+
     <div class="wrapper">
         <div class="widget">
-            <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
-                <h6>待打印订单</h6></div>
-            <table cellpadding="0" cellspacing="0" width="100%" class="display dTable" id="res1">
-                <thead>
-                <tr>
-                    <td class="sortCol"><div>订单状态<span></span></div></td>
-                    <td class="sortCol"><div>资源名<span></span></div></td>
-                    <td class="sortCol"><div>打印格式<span></span></div></td>
-                    <td class="sortCol"><div>份数<span></span></div></td>
-                    <td class="sortCol"><div>单份页数<span></span></div></td>
-                    <td class="sortCol"><div>金额<span></span></div></td>
-                    <td class="sortCol"><div>打印店<span></span></div></td>
-                    <td class="sortCol"><div>下单时间<span></span></div></td>
-                    <td class="sortCol"><div>预计取货时间<span></span></div></td>
-                </tr>
-                </thead>
-                <tbody align="center">
-                <c:forEach items="${toPrintOrderList}" var="order" varStatus="loop">
-                    <tr>
-                        <td>${order.state}</td>
-                        <td>${order.resourceName}</td>
-                        <td>${order.printFormat}</td>
-                        <td>${order.printCount}</td>
-                        <td>${order.countPerRecourse}</td>
-                        <td>${toPrintResList[loop.count-1].totalPrice}</td>
-                        <td>${order.shopId}</td>
-                        <td>${order.orderTime}</td>
-                        <td>${order.targetTakeTime}</td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+            <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" /><h6>资源信息</h6></div>
+            <div class="formRow">
+                <label style="width: 10%">资源名称</label>
+                <label>${resource.resName}</label>
+                <div class="clear"></div>
+            </div>
+            <div class="formRow">
+                <label style="width: 10%">打印店</label>
+                <label>${shop.userName}</label>
+                <div class="clear"></div>
+            </div>
+            <div class="formRow">
+                <label style="width: 10%">单份页数</label>
+                <label>${resource.pageCount}</label>
+                <div class="clear"></div>
+            </div>
+            <div class="formRow">
+                <label style="width: 10%">资源价格</label>
+                <label>${resource.totalPrice}</label>
+                <div class="clear"></div>
+            </div>
+            <div class="formRow">
+                <label style="width: 10%">资源描述</label>
+                <label>${resource.description}</label>
+                <div class="clear"></div>
+            </div>
         </div>
     </div>
 
-    <%--动态数据表--%>
+    <%--表单：打印当前资源--%>
     <div class="wrapper">
         <div class="widget">
-            <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
-                <h6>待取货订单</h6></div>
-            <table cellpadding="0" cellspacing="0" width="100%" class="display dTable" id="res1">
-                <thead>
-                <tr>
-                    <td class="sortCol"><div>订单状态<span></span></div></td>
-                    <td class="sortCol"><div>资源名<span></span></div></td>
-                    <td class="sortCol"><div>打印格式<span></span></div></td>
-                    <td class="sortCol"><div>份数<span></span></div></td>
-                    <td class="sortCol"><div>单份页数<span></span></div></td>
-                    <td class="sortCol"><div>金额<span></span></div></td>
-                    <td class="sortCol"><div>打印店<span></span></div></td>
-                    <td class="sortCol"><div>下单时间<span></span></div></td>
-                    <td class="sortCol"><div>打印完成时间<span></span></div></td>
-                </tr>
-                </thead>
-                <tbody align="center">
-                <c:forEach items="${toReceiveOrderList}" var="order" varStatus="loop">
-                    <tr>
-                        <td>${order.state}</td>
-                        <td>${order.resourceName}</td>
-                        <td>${order.printFormat}</td>
-                        <td>${order.printCount}</td>
-                        <td>${order.countPerRecourse}</td>
-                        <td>${toReceiveResList[loop.count-1].totalPrice}</td>
-                        <td>${order.shopId}</td>
-                        <td>${order.orderTime}</td>
-                        <td>${order.readyTime}</td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+            <div class="formRow"><h5>打印</h5></div>
+            <form action="${pageContext.request.contextPath}/consumer/createShopResOrder?resId=${resource.resId}" id="validate" method="post" enctype="multipart/form-data">
+                <fieldset>
+                    <div class="formRow">
+                        <label for="printLayout" style="width:10%">打印格式</label>
+                        <select class="validate[required]" id="printLayout" name="printLayout" >
+                            <option value="single" selected="selected">单面</option>
+                            <option value="double">双面</option>
+                        </select>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="formRow">
+                        <label for="printNumber" style="width:10%">打印份数</label>
+                        <input type="number" name="printNumber" class="validate[required]" id="printNumber" min="1" value="1" style="width:16%"/>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="formRow">
+                        <label for="getTime" style="width:10%">取货时间</label>
+                        <input type="datetime-local" name="getTime" class="validate[required]" id="getTime" style="width:16%"/>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="formRow">
+                        <input type="submit" value="创建订单" class="blueB logMeIn" />
+                        <div class="clear"></div>
+                    </div>
+                </fieldset>
+            </form>
         </div>
     </div>
-
-    <%--动态数据表--%>
-    <div class="wrapper">
-        <div class="widget">
-            <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
-                <h6>已完成订单</h6></div>
-            <table cellpadding="0" cellspacing="0" width="100%" class="display dTable" id="res1">
-                <thead>
-                <tr>
-                    <td class="sortCol"><div>订单状态<span></span></div></td>
-                    <td class="sortCol"><div>资源名<span></span></div></td>
-                    <td class="sortCol"><div>打印格式<span></span></div></td>
-                    <td class="sortCol"><div>份数<span></span></div></td>
-                    <td class="sortCol"><div>单份页数<span></span></div></td>
-                    <td class="sortCol"><div>金额<span></span></div></td>
-                    <td class="sortCol"><div>打印店<span></span></div></td>
-                    <td class="sortCol"><div>下单时间<span></span></div></td>
-                    <td class="sortCol"><div>订单完成时间<span></span></div></td>
-                </tr>
-                </thead>
-                <tbody align="center">
-                <c:forEach items="${completeOrderList}" var="order" varStatus="loop">
-                    <tr>
-                        <td>${order.state}</td>
-                        <td>${order.resourceName}</td>
-                        <td>${order.printFormat}</td>
-                        <td>${order.printCount}</td>
-                        <td>${order.countPerRecourse}</td>
-                        <td>${completeResList[loop.count-1].totalPrice}</td>
-                        <td>${order.shopId}</td>
-                        <td>${order.orderTime}</td>
-                        <td>${order.finishTime}</td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="clear"></div>
-
 
 
     <!-- Footer line -->
     <div id="footer">
         <div class="wrapper">All rights reserved by <a href="http://hashmap.me">Marco Hao</a></div>
     </div>
-
-
-
     <div class="clear"></div>
 </div>
 </body>

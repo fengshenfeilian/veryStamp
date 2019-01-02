@@ -8,6 +8,8 @@
   + 商户注册
 + 增加【注册】页面
 + 增加【联系我们】页面
++ 【consumer.订单】增加【取消(未完成的)订单】功能
++ 【consumer.订单】增加【确认完成】功能
 
 #### 约定
 
@@ -27,10 +29,8 @@ ID = 邮箱号（Count(Consumer(ID) + Shop(ID) + Admin(ID)) == 1,即在Consumer�
 
 + RES_TYPE = consumer ：	表示是用户上传的资源
   + SHOP_ID这时实际应当赋值为CONSUMER_ID（当作命名失误处理）
-
 + RES_TYPE = shop : 	表示是商户所有的资源
-
-
++ RES_ID = uploadTime + fileName
 
 ##### 订单状态
 
@@ -39,3 +39,8 @@ toPrint : 等待打印
 toReceive:打印完成待取货
 
 completed：订单已完成
+
+##### 订单号生成规则
+
+orderId = resId + consumerId + shopId
+

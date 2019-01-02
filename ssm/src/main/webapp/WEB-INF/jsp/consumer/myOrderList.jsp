@@ -126,41 +126,116 @@
     <div class="wrapper">
         <div class="widget">
             <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
-                <h6>我的订单</h6></div>
+                <h6>待打印订单</h6></div>
             <table cellpadding="0" cellspacing="0" width="100%" class="display dTable" id="res1">
                 <thead>
                 <tr>
-                    <td class="sortCol"><div>订单号<span></span></div></td>
-                    <td class="sortCol"><div>下单时间<span></span></div></td>
+                    <td class="sortCol"><div>订单状态<span></span></div></td>
                     <td class="sortCol"><div>资源名<span></span></div></td>
                     <td class="sortCol"><div>打印格式<span></span></div></td>
                     <td class="sortCol"><div>份数<span></span></div></td>
                     <td class="sortCol"><div>单份页数<span></span></div></td>
                     <td class="sortCol"><div>金额<span></span></div></td>
                     <td class="sortCol"><div>打印店<span></span></div></td>
+                    <td class="sortCol"><div>下单时间<span></span></div></td>
                     <td class="sortCol"><div>预计取货时间<span></span></div></td>
-                    <td class="sortCol"><div>订单状态<span></span></div></td>
                 </tr>
                 </thead>
                 <tbody align="center">
-                <c:forEach items="${orders}" var="order">
+                <c:forEach items="${toPrintOrderList}" var="order">
                     <tr>
-                        <td>${order.orderId}</td>
-                        <td>${order.orderTime}</td>
+                        <td>${order.state}</td>
                         <td>${order.resourceName}</td>
                         <td>${order.printFormat}</td>
                         <td>${order.printCount}</td>
                         <td>${order.countPerRecourse}</td>
                         <td>${order.price}</td>
                         <td>${order.shopId}</td>
+                        <td>${order.orderTime}</td>
                         <td>${order.targetTakeTime}</td>
-                        <td>${order.state}</td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
         </div>
     </div>
+
+    <%--动态数据表--%>
+    <div class="wrapper">
+        <div class="widget">
+            <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
+                <h6>待取货订单</h6></div>
+            <table cellpadding="0" cellspacing="0" width="100%" class="display dTable" id="res1">
+                <thead>
+                <tr>
+                    <td class="sortCol"><div>订单状态<span></span></div></td>
+                    <td class="sortCol"><div>资源名<span></span></div></td>
+                    <td class="sortCol"><div>打印格式<span></span></div></td>
+                    <td class="sortCol"><div>份数<span></span></div></td>
+                    <td class="sortCol"><div>单份页数<span></span></div></td>
+                    <td class="sortCol"><div>金额<span></span></div></td>
+                    <td class="sortCol"><div>打印店<span></span></div></td>
+                    <td class="sortCol"><div>下单时间<span></span></div></td>
+                    <td class="sortCol"><div>打印完成时间<span></span></div></td>
+                </tr>
+                </thead>
+                <tbody align="center">
+                <c:forEach items="${toReceiveOrderList}" var="order">
+                    <tr>
+                        <td>${order.state}</td>
+                        <td>${order.resourceName}</td>
+                        <td>${order.printFormat}</td>
+                        <td>${order.printCount}</td>
+                        <td>${order.countPerRecourse}</td>
+                        <td>${order.price}</td>
+                        <td>${order.shopId}</td>
+                        <td>${order.orderTime}</td>
+                        <td>${order.readyTime}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <%--动态数据表--%>
+    <div class="wrapper">
+        <div class="widget">
+            <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
+                <h6>已完成订单</h6></div>
+            <table cellpadding="0" cellspacing="0" width="100%" class="display dTable" id="res1">
+                <thead>
+                <tr>
+                    <td class="sortCol"><div>订单状态<span></span></div></td>
+                    <td class="sortCol"><div>资源名<span></span></div></td>
+                    <td class="sortCol"><div>打印格式<span></span></div></td>
+                    <td class="sortCol"><div>份数<span></span></div></td>
+                    <td class="sortCol"><div>单份页数<span></span></div></td>
+                    <td class="sortCol"><div>金额<span></span></div></td>
+                    <td class="sortCol"><div>打印店<span></span></div></td>
+                    <td class="sortCol"><div>下单时间<span></span></div></td>
+                    <td class="sortCol"><div>订单完成时间<span></span></div></td>
+                </tr>
+                </thead>
+                <tbody align="center">
+                <c:forEach items="${completeOrderList}" var="order">
+                    <tr>
+                        <td>${order.state}</td>
+                        <td>${order.resourceName}</td>
+                        <td>${order.printFormat}</td>
+                        <td>${order.printCount}</td>
+                        <td>${order.countPerRecourse}</td>
+                        <td>${order.price}</td>
+                        <td>${order.shopId}</td>
+                        <td>${order.orderTime}</td>
+                        <td>${order.finishTime}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="clear"></div>
 
 
 

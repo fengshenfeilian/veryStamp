@@ -113,4 +113,62 @@ public class ConsumerService {
     {
        return shopMapper.selectByPrimaryKey(ShopId).getUserName();
     }
+
+    public Order_List convertOrder(Order_List order)
+    {
+        Resource resource = resourceMapper.selectByPrimaryKey(order.getResId());
+        order.setResourceName(resource.getResName());
+        if(order.getPrintFormat().equals("single")){
+            order.setPrintFormat("单面");
+        }
+        else if(order.getPrintFormat().equals("double")){
+            order.setPrintFormat("双面");
+        }
+        Shop shop = shopMapper.selectByPrimaryKey(order.getShopId());
+        order.setShopId(shop.getUserName());
+        return order;
+    }
+
+    public List<Order_List> getToPrintOrderList(String consumerId)
+    {
+        List<Order_List> list = new ArrayList<>();
+        List<Order_List> allOrderList = getOrdersByConsumerId(consumerId);
+        for(Order_List order : allOrderList)
+        {
+            if(order.getState().equals("等待打印")){
+                order = convertOrder(order);
+                list.add(order);
+            }
+        }
+        return list;
+    }
+
+    public List<Order_List> getToReceiveOrderList(String consumerId)
+    {
+        List<Order_List> list = new ArrayList<>();
+        List<Order_List> allOrderList = getOrdersByConsumerId(consumerId);
+        for(Order_List order : allOrderList)
+        {
+            if(order.getState().equals("待取货")){
+                order = convertOrder(order);
+                list.add(order);
+            }
+        }
+        return list;
+    }
+
+    public List<Order_List> getCompleteOrderList(String consumerId)
+    {
+        List<Order_List> list = new ArrayList<>();
+        List<Order_List> allOrderList = getOrdersByConsumerId(consumerId);
+        for(Order_List order : allOrderList)
+        {
+            if(order.getState().equals("已完成")){
+                order = convertOrder(order);
+                list.add(order);
+            }
+        }
+        return list;
+    }
+
 }

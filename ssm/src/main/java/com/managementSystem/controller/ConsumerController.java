@@ -141,16 +141,14 @@ public class ConsumerController {
     {
         Consumer consumer = (Consumer) session.getAttribute("currentConsumer");
         model.addAttribute("consumer",consumer);
+        List<Order_List> toPrintOrderList = consumerService.getToPrintOrderList(consumer.getConsumerId());
+        List<Order_List> toReceiveOrderList = consumerService.getToReceiveOrderList(consumer.getConsumerId());
+        List<Order_List> completeOrderList = consumerService.getCompleteOrderList(consumer.getConsumerId());
 
-        List<Order_List> order_lists = consumerService.getOrdersByConsumerId(consumer.getConsumerId());
-        for(Order_List order_list:order_lists)
-        {
-            String resourceName = consumerService.getResourceNameByResId(order_list.getResId());
-            order_list.setResourceName(resourceName);
-            String shopName = consumerService.getShopNameByShopId(order_list.getShopId());
-            order_list.setShopId(shopName);
-        }
-        model.addAttribute("orders",order_lists);
+
+        model.addAttribute("toPrintOrderList",toPrintOrderList);
+        model.addAttribute("toReceiveOrderList",toReceiveOrderList);
+        model.addAttribute("completeOrderList",completeOrderList);
         return "/consumer/myOrderList";
     }
 
@@ -183,49 +181,49 @@ public class ConsumerController {
         Date curDateTime = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String curDateTimeStr = df.format(curDateTime);
-        System.out.println(curDateTimeStr);
-        getTime = getTime.replace('T', ' ');
-        System.out.println(getTime);
+        getTime = getTime.replace('T', ' ') + ":00";
 
         //取货时间不合法，则订单创建失败
         if(getTime.compareTo(curDateTimeStr) < 0){
             model.addAttribute("message","取货时间不能早于当前时间");
             return "redirect:/consumer/printSelfFile";
         }
-        //ResId : 下单时间 + 文件名 + 用户ID
-        String resId = curDateTime.toString() + file.getOriginalFilename() + consumer.getConsumerId();
+        //ResId : 下单时间 + 文件名
+        String resId = curDateTimeStr + ' ' + file.getOriginalFilename();
         String resType = "consumer";
-        //创建并插入(用户创建的)Resource对象
+        //创建(用户创建的)Resource对象
         Resource resource = new Resource();
         resource.setResName(file.getOriginalFilename());
         resource.setResId(resId);
         resource.setResType(resType);
-        //resource.setShopId(printShopId);
 
-        consumerService.addResource(resource);
-        consumerService.saveFile(file);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date takeTime = sdf.parse(getTime);
-            Order_List orderList = new Order_List();
-            orderList.setShopId(printShopId);
-            orderList.setUserId(consumer.getConsumerId());
-            orderList.setPrintFormat(printLayout);
-            orderList.setPrintCount(Integer.parseInt(printNumber));
-            orderList.setResourceName(file.getOriginalFilename());
-            orderList.setState("toPrint");
-            Date now = new Date();
-            orderList.setOrderTime(now);
-            orderList.setTargetTakeTime(takeTime);
-            orderList.setOrderId(String.valueOf(now.getTime()));
-            orderList.setResId(resId);
-            consumerService.addOrder(orderList);
+            //插入Resource记录
+            consumerService.addResource(resource);
+            //创建资源文件目录
+            consumerService.saveFile(file);
+            //插入Order记录
+            Order_List order = new Order_List();
+            //orderId = resId + consumerId + shopId
+            order.setOrderId(resId + ' ' + consumer.getConsumerId() + ' ' + printShopId);
+            order.setShopId(printShopId);
+            order.setUserId(consumer.getConsumerId());
+            order.setResId(resource.getResId());
+            order.setPrintFormat(printLayout);
+            order.setPrintCount(Integer.parseInt(printNumber));
+            order.setOrderTime(curDateTime); //下单时间 = 当前时间
+            order.setState("等待打印"); //订单状态  = 等待打印
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date targetTakeTime = sdf.parse(getTime);
+            System.out.println(targetTakeTime.toString());
+            order.setTargetTakeTime(targetTakeTime);
+
+            consumerService.addOrder(order);
             session.setAttribute("message", "订单创建成功");
-            return "/consumer/myOrderList";
+            return "redirect:/consumer/myOrder";
         } catch (Exception e) {
             session.setAttribute("message", "订单创建失败");
-            return "/consumer/printSelfFile";
+            return "redirect:/consumer/printSelfFile";
         }
     }
 

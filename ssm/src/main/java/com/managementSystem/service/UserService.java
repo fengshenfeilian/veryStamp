@@ -109,4 +109,25 @@ public class UserService {
         return company_infoMapper.selectByPrimaryKey(companyId);
     }
 
+    @Autowired
+    Consumer_CreditMapper consumer_creditMapper;
+    public void insertConsumerCredit(Consumer_Credit credit)
+    {
+        consumer_creditMapper.insert(credit);
+    }
+
+    @Autowired
+    Shop_CreditMapper shop_creditMapper;
+    public void insertShopCredt(Shop_Credit credit)
+    {
+        shop_creditMapper.insert(credit);
+    }
+
+    @Autowired
+    Shop_PriceMapper shop_priceMapper;
+    public void insertShopPrice(Shop_Price shop_price)
+    {
+        shop_priceMapper.insert(shop_price);
+    }
+
 }

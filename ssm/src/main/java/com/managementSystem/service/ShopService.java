@@ -77,4 +77,16 @@ public class ShopService {
             e.printStackTrace();
         }
     }
+
+    public void updateOrder(Order_List order_list) {
+        order_listMapper.updateByPrimaryKey(order_list);
+    }
+
+    public Order_List getOrderById(String orderId) {
+        return order_listMapper.selectByPrimaryKey(orderId);
+    }
+
+    public void updateShopPrice(Shop_Price shop_price) {
+        shop_priceMapper.updateByPrimaryKey(shop_price);
+    }
 }

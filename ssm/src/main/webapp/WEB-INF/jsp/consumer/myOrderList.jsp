@@ -139,6 +139,7 @@
                     <td class="sortCol"><div>打印店<span></span></div></td>
                     <td class="sortCol"><div>下单时间<span></span></div></td>
                     <td class="sortCol"><div>预计取货时间<span></span></div></td>
+                    <td class="sortCol"><div>选项<span></span></div></td>
                 </tr>
                 </thead>
                 <tbody align="center">
@@ -153,6 +154,7 @@
                         <td>${order.shopId}</td>
                         <td>${order.orderTime}</td>
                         <td>${order.targetTakeTime}</td>
+                        <td><a href="/consumer/cancelOrder?orderId=${order.orderId}"><button class="blueB">撤销订单</button></a></td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -172,11 +174,12 @@
                     <td class="sortCol"><div>资源名<span></span></div></td>
                     <td class="sortCol"><div>打印格式<span></span></div></td>
                     <td class="sortCol"><div>份数<span></span></div></td>
-                    <td class="sortCol"><div>单份页数<span></span></div></td>
+                    <td class="sortCol"><div>总页数<span></span></div></td>
                     <td class="sortCol"><div>金额<span></span></div></td>
                     <td class="sortCol"><div>打印店<span></span></div></td>
                     <td class="sortCol"><div>下单时间<span></span></div></td>
                     <td class="sortCol"><div>打印完成时间<span></span></div></td>
+                    <td class="sortCol"><div>选项<span></span></div></td>
                 </tr>
                 </thead>
                 <tbody align="center">
@@ -186,11 +189,12 @@
                         <td>${order.resourceName}</td>
                         <td>${order.printFormat}</td>
                         <td>${order.printCount}</td>
-                        <td>${order.countPerRecourse}</td>
-                        <td>${toReceiveResList[loop.count-1].totalPrice}</td>
+                        <td>${order.totalPageCount}</td>
+                        <td>${order.totalPrice}</td>
                         <td>${order.shopId}</td>
                         <td>${order.orderTime}</td>
                         <td>${order.readyTime}</td>
+                        <td><a href="/consumer/confirmReceipt?orderId=${order.orderId}"><button class="redB">确认收货</button></a></td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -224,8 +228,8 @@
                         <td>${order.resourceName}</td>
                         <td>${order.printFormat}</td>
                         <td>${order.printCount}</td>
-                        <td>${order.countPerRecourse}</td>
-                        <td>${completeResList[loop.count-1].totalPrice}</td>
+                        <td>${order.totalPageCount}</td>
+                        <td>${order.totalPrice}</td>
                         <td>${order.shopId}</td>
                         <td>${order.orderTime}</td>
                         <td>${order.finishTime}</td>

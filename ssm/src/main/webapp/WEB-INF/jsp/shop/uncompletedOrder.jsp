@@ -132,10 +132,9 @@
                     <td class="sortCol"><div>资源名<span></span></div></td>
                     <td class="sortCol"><div>打印格式<span></span></div></td>
                     <td class="sortCol"><div>份数<span></span></div></td>
-                    <td class="sortCol"><div>单份页数<span></span></div></td>
+                    <td class="sortCol"><div>总页数<span></span></div></td>
                     <td class="sortCol"><div>金额<span></span></div></td>
                     <td class="sortCol"><div>预计取货时间<span></span></div></td>
-                    <td class="sortCol"><div>操作<span></span></div></td>
                 </tr>
                 </thead>
                 <tbody align="center">
@@ -146,10 +145,9 @@
                         <td>${order.resourceName}</td>
                         <td>${order.printFormat}</td>
                         <td>${order.printCount}</td>
-                        <td>${order.countPerRecourse}</td>
-                        <td>${order.price}</td>
+                        <td>${order.totalPageCount}</td>
+                        <td>${order.totalPrice}</td>
                         <td>${order.targetTakeTime}</td>
-                        <td><a href="/shop/confirmComplete?orderId=${order.orderId}"><button class="blueB">确认完成</button></a></td>
                     </tr>
                 </c:forEach>
                 </tbody>

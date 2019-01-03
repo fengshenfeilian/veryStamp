@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 
@@ -91,7 +92,13 @@ public class UserController {
         newConsumer.setAddress(address);
         newConsumer.setPassword(password);
         newConsumer.setUserName(userName);
+
         userService.insertConsumer(newConsumer);
+        //插入ConsumerCredit
+        Consumer_Credit credit = new Consumer_Credit();
+        credit.setConsumerId(newConsumer.getConsumerId());
+        credit.setCredit(0);
+        userService.insertConsumerCredit(credit);
         //注册成功，返回登录界面
         return "redirect:/login.jsp";
     }
@@ -105,6 +112,8 @@ public class UserController {
                                @RequestParam(value = "password1")String password,
                                @RequestParam(value = "startTime")String startTime,
                                @RequestParam(value = "endTime")String endTime,
+                               @RequestParam(value = "singlePagePrice") String singlePagePrice,
+                               @RequestParam(value = "doublePagePrice") String doublePagePrice,
                                Model model,HttpSession session,HttpServletRequest request
                                )
     {
@@ -122,7 +131,7 @@ public class UserController {
             model.addAttribute("message","该商户名已被注册");
             return "redirect:/user/shopRegisterPage";
         }
-
+        //创建商户
         Shop newShop = new Shop();
         newShop.setAddress(address);
         newShop.setBusinessEndTime(endTime);
@@ -131,7 +140,41 @@ public class UserController {
         newShop.setPhone(phone);
         newShop.setShopId(userId);
         newShop.setUserName(userName);
+        Date date = new Date();
+        newShop.setSignupTime(date);
         userService.insertShop(newShop);
+
+        //创建商户账户
+        Shop_Credit credit = new Shop_Credit();
+        credit.setShopId(newShop.getShopId());
+        credit.setCredit(0);
+        userService.insertShopCredt(credit);
+
+        Shop_Price shop_price = new Shop_Price();
+        shop_price.setShopId(newShop.getShopId());
+        if(singlePagePrice != null)
+        {
+            try {
+                shop_price.setSinglePagePrice(new BigDecimal(Double.parseDouble(singlePagePrice)));
+            }
+            catch(Exception e){
+                model.addAttribute("message", "价格格式错误");
+                model.addAttribute("shop", shop);
+                return "redirect:/user/shopRegisterPage";
+            }
+        }
+        if(doublePagePrice != null)
+        {
+            try {
+                shop_price.setDoublePagePrice(new BigDecimal(Double.parseDouble(doublePagePrice)));
+            }
+            catch(Exception e){
+                model.addAttribute("message", "价格格式错误");
+                model.addAttribute("shop", shop);
+                return "redirect:/user/shopRegisterPage";
+            }
+        }
+        userService.insertShopPrice(shop_price);
         //注册成功，返回登录界面
         return "redirect:/login.jsp";
     }

@@ -115,7 +115,6 @@
                     <input type="password" class="validate[required,equals[password1]]" name="password2" id="password2"/>
                     <div class="clear"></div>
                 </div>
-
                 <div class="loginControl">
                     <input type="submit" value="注册" class="dblueB logMeIn" />
                     <div class="clear"></div>

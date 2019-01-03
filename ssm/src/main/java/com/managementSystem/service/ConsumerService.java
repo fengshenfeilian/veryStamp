@@ -217,4 +217,28 @@ public class ConsumerService {
         return false;
     }
 
+    public Order_List getOrderByOrderId(String orderId)
+    {
+        return orderListMapper.selectByPrimaryKey(orderId);
+    }
+
+    public void minusConsumerCredit(Consumer_Credit credit, Integer money)
+    {
+        credit.setCredit(credit.getCredit() - money);
+        consumerCreditMapper.updateByPrimaryKey(credit);
+    }
+
+    public void updateOrderState(Order_List order, String state)
+    {
+        order.setState(state);
+        Date date = new Date();
+        order.setFinishTime(date);
+        orderListMapper.updateByPrimaryKey(order);
+    }
+
+    public void deleteOrderById(String orderId)
+    {
+        orderListMapper.deleteByPrimaryKey(orderId);
+    }
+
 }

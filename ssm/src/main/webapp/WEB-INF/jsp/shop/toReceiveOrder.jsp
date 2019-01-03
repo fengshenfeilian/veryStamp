@@ -117,13 +117,35 @@
         </div>
     </div>
 
+    <div class="wrapper">
+        <div class="widget">
+            <div class="title"><img src="" alt="" class="titleIcon" /><h6>修改订单资源页数</h6></div>
+            <form action="${pageContext.request.contextPath}/shop/modifyPageCount" method="post" class="form">
+                <fieldset>
+                    <div class="formRow">
+                        <label for="login">订单号</label>
+                        <div class="loginInput"><input type="text" name="orderId" class="validate[required]" id="login" /></div>
+                        <div class="clear"></div>
+                    </div>
 
+                    <div class="formRow">
+                        <label for="pass">单份页数</label>
+                        <div class="loginInput"><input type="text" name="pageCount" class="validate[required]" id="pass" /></div>
+                        <div class="clear"></div>
+                    </div>
 
+                    <div class="loginControl">
+                        <input type="submit" value="修改页数" class="dredB logMeIn" />
+                        <div class="clear"></div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
     <%--动态数据表--%>
     <div class="wrapper">
         <div class="widget">
-            <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
-                <h6>待收货订单</h6></div>
+            <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" /><h6>待收货订单</h6></div>
             <table cellpadding="0" cellspacing="0" width="100%" class="display dTable" id="res1">
                 <thead>
                 <tr>
@@ -132,8 +154,8 @@
                     <td class="sortCol"><div>资源名<span></span></div></td>
                     <td class="sortCol"><div>打印格式<span></span></div></td>
                     <td class="sortCol"><div>份数<span></span></div></td>
-                    <td class="sortCol"><div>单份页数<span></span></div></td>
-                    <td class="sortCol"><div>金额<span></span></div></td>
+                    <td class="sortCol"><div>总页数<span></span></div></td>
+                    <td class="sortCol"><div>总价<span></span></div></td>
                     <td class="sortCol"><div>预计取货时间<span></span></div></td>
                     <td class="sortCol"><div>操作<span></span></div></td>
                 </tr>
@@ -146,10 +168,10 @@
                         <td>${order.resourceName}</td>
                         <td>${order.printFormat}</td>
                         <td>${order.printCount}</td>
-                        <td>${order.countPerRecourse}</td>
-                        <td>${order.price}</td>
+                        <td>${order.totalPageCount}</td>
+                        <td>${order.totalPrice}</td>
                         <td>${order.targetTakeTime}</td>
-                        <td><a href="/shop/confirmReceive?orderId=${order.orderId}"><button class="blueB">确认收货</button></a></td>
+                        <td><a href="/shop/confirmReceive?orderId=${order.orderId}"><button class="blueB">打印</button></a></td>
                     </tr>
                 </c:forEach>
                 <c:if test="${message != null}">

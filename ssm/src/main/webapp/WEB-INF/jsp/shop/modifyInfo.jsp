@@ -127,7 +127,7 @@
                 <fieldset>
                     <div class="formRow">
                         <label for="login">原密码</label>
-                        <div class="loginInput"><input type="text" name="oldPassword" class="validate[required]" id="login" /></div>
+                        <div class="loginInput"><input type="password" name="oldPassword" class="validate[required]" id="login" /></div>
                         <div class="clear"></div>
                     </div>
 
@@ -145,13 +145,25 @@
 
                     <div class="formRow">
                         <label for="pass">联系电话</label>
-                        <div class="loginInput"><input type="password" name="phone" class="validate[required]" id="pass" /></div>
+                        <div class="loginInput"><input type="text" name="phone" class="validate[required]" id="pass" /></div>
                         <div class="clear"></div>
                     </div>
 
                     <div class="formRow">
                         <label for="pass">联系地址</label>
-                        <div class="loginInput"><input type="password" name="address" class="validate[required]" id="pass" /></div>
+                        <div class="loginInput"><input type="text" name="address" class="validate[required]" id="pass" /></div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="formRow">
+                        <label for="pass">单面打印价格</label>
+                        <div class="loginInput"><input type="text" name="singlePagePrice" class="validate[required]" id="pass" /></div>
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="formRow">
+                        <label for="pass">双面打印价格</label>
+                        <div class="loginInput"><input type="text" name="doublePagePrice" class="validate[required]" id="pass" /></div>
                         <div class="clear"></div>
                     </div>
 

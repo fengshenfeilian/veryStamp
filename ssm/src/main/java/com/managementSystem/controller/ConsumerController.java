@@ -321,7 +321,6 @@ public class ConsumerController {
         Consumer consumer = (Consumer) session.getAttribute("currentConsumer");
         model.addAttribute("consumer",consumer);
         Consumer_Credit consumer_credit = consumerService.getConsumerCredit(consumer.getConsumerId());
-        System.out.println("账户余额" + consumer_credit.getCredit().toString());
         if(consumer_credit != null){
             model.addAttribute("consumer_credit",consumer_credit);
         }
@@ -333,6 +332,35 @@ public class ConsumerController {
         //计算得到订单价格
 
         return "/consumer/credit";
+    }
+
+    @RequestMapping(value = "/confirmReceipt")
+    public String goConfirmReceipt(HttpServletRequest request, HttpSession session, Model model)
+    {
+        String orderId = request.getParameter("orderId");
+        Order_List order = consumerService.getOrderByOrderId(orderId);
+        Consumer consumer = (Consumer) session.getAttribute("currentConsumer");
+        Consumer_Credit credit = consumerService.getConsumerCredit(consumer.getConsumerId());
+        //判断是否可以扣费
+        if(credit.getCredit() < order.getTotalPrice().intValue()){
+            model.addAttribute("message","账户余额不足，请充值");
+        }
+        //确认收货 ：扣费并修改订单状态为已完成
+        else{
+            //扣费
+            consumerService.minusConsumerCredit(credit,order.getTotalPrice().intValue());
+            //修改订单状态
+            consumerService.updateOrderState(order,"已完成");
+        }
+        return "redirect:/consumer/myOrder";
+    }
+    //撤销订单
+    @RequestMapping(value = "/cancelOrder")
+    public String goCancelReceipt(HttpServletRequest request, HttpSession session, Model model)
+    {
+        String orderId = request.getParameter("orderId");
+        consumerService.deleteOrderById(orderId);
+        return "redirect:/consumer/myOrder";
     }
 
 }

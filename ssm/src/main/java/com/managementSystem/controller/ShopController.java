@@ -5,6 +5,7 @@ import com.managementSystem.pojo.Order_List;
 import com.managementSystem.pojo.Resource;
 import com.managementSystem.pojo.Shop;
 import com.managementSystem.pojo.Shop_Price;
+import com.managementSystem.service.ConsumerService;
 import com.managementSystem.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,11 +27,15 @@ public class ShopController {
     @Autowired
     ShopService shopService;
 
+    @Autowired
+    ConsumerService consummerService;
 
     @RequestMapping(value = "/showInfo")
     public String showInfo(Model model, HttpSession session, HttpServletRequest request)
     {
         Shop shop = (Shop) session.getAttribute("currentShop");
+        Shop_Price shop_price = shopService.getShopPrice(shop.getShopId());
+        model.addAttribute("shop_price", shop_price);
         model.addAttribute("shop", shop);
         return "shop/infoManager";
     }
@@ -51,6 +56,8 @@ public class ShopController {
                              @RequestParam(value = "address") String address,
                              @RequestParam(value = "businessStartTime") String businessStartTime,
                              @RequestParam(value = "businessEndTime") String businessEndTime,
+                             @RequestParam(value = "singlePagePrice") String singlePagePrice,
+                             @RequestParam(value = "doublePagePrice") String doublePagePrice,
                              Model model, HttpSession session, HttpServletRequest request)
     {
         Shop shop = (Shop) session.getAttribute("currentShop");
@@ -72,34 +79,33 @@ public class ShopController {
         if(address != null) shop.setAddress(address);
         if(businessStartTime != null) shop.setBusinessStartTime(businessStartTime);
         if(businessEndTime != null) shop.setBusinessEndTime(businessEndTime);
+        Shop_Price shop_price = shopService.getShopPrice(shop.getShopId());
+        if(singlePagePrice != null)
+        {
+            try {
+                shop_price.setSinglePagePrice(new BigDecimal(Double.parseDouble(singlePagePrice)));
+            }
+            catch(Exception e){
+                model.addAttribute("message", "价格格式错误");
+                model.addAttribute("shop", shop);
+                return "shop/infoManager";
+            }
+        }
+        if(doublePagePrice != null)
+        {
+            try {
+                shop_price.setDoublePagePrice(new BigDecimal(Double.parseDouble(doublePagePrice)));
+            }
+            catch(Exception e){
+                model.addAttribute("message", "价格格式错误");
+                model.addAttribute("shop", shop);
+                return "shop/infoManager";
+            }
+        }
+        shopService.updateShopPrice(shop_price);
         shopService.updateShop(shop);
         model.addAttribute("shop", shop);
         return "shop/infoManager";
-    }
-
-    public Order_List addPrice(Order_List order_list, String shopId)
-    {
-        Resource resource = shopService.getOrderedResource(order_list.getOrderId());
-        order_list.setResourceName(resource.getResName());
-        order_list.setTotalPageCount(resource.getPageCount()*order_list.getPrintCount());
-        if(resource.getResType().equals("shop"))
-        {
-            order_list.setTotalPrice(resource.getTotalPrice().doubleValue() * order_list.getPrintCount());
-        }
-        else
-        {
-            //查找用户资源的单张纸价格
-            Shop_Price shop_price = shopService.getShopPrice(shopId);
-            if(order_list.getPrintFormat().equals("single"))
-            {
-                order_list.setTotalPrice(shop_price.getSinglePagePrice().doubleValue() * order_list.getTotalPageCount());
-            }
-            else
-            {
-                order_list.setTotalPrice(shop_price.getDoublePagePrice().doubleValue() * order_list.getTotalPageCount() / 2);
-            }
-        }
-        return order_list;
     }
 
     @RequestMapping(value = "/showToPrintOrder")
@@ -107,7 +113,7 @@ public class ShopController {
     {
         Shop shop = (Shop) session.getAttribute("currentShop");
         System.out.println(shop.getUserName());
-        List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "toPrint");
+        List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "等待打印");
 //        if(order_lists.isEmpty())
 //        {
 //            model.addAttribute("message", "当前没有需打印的订单");
@@ -116,7 +122,7 @@ public class ShopController {
 //        }
         for(Order_List order_list : order_lists)
         {
-            order_list = addPrice(order_list, shop.getShopId());
+            order_list = consummerService.convertOrder(order_list);
         }
         model.addAttribute("orders",order_lists);
         model.addAttribute("shop", shop);
@@ -127,17 +133,17 @@ public class ShopController {
     public String showUncompletedOrder(Model model, HttpSession session)
     {
         Shop shop = (Shop) session.getAttribute("currentShop");
-        List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "ToReceive");
+        List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "待取货");
 //        if(order_lists.isEmpty())
 //        {
 //            model.addAttribute("message", "当前没有需领取的订单");
 //            model.addAttribute("shop", shop);
 //            return "shop/uncompletedOrder";
 //        }
-//        for(Order_List order_list : order_lists)
-//        {
-//            order_list = addPrice(order_list, shop.getShopId());
-//        }
+        for(Order_List order_list : order_lists)
+        {
+            order_list = consummerService.convertOrder(order_list);
+        }
         model.addAttribute("orders",order_lists);
         model.addAttribute("shop", shop);
         return "shop/uncompletedOrder";
@@ -147,17 +153,17 @@ public class ShopController {
     public String showCompletedOrder(Model model, HttpSession session)
     {
         Shop shop = (Shop) session.getAttribute("currentShop");
-        List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "completed");
+        List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "已完成");
 //        if(order_lists.isEmpty())
 //        {
 //            model.addAttribute("message", "当前没有已完成的订单");
 //            model.addAttribute("shop", shop);
 //            return "shop/completedOrder";
 //        }
-//        for(Order_List order_list : order_lists)
-//        {
-//            order_list = addPrice(order_list, shop.getShopId());
-//        }
+        for(Order_List order_list : order_lists)
+        {
+            order_list = consummerService.convertOrder(order_list);
+        }
         model.addAttribute("orders",order_lists);
         model.addAttribute("shop", shop);
         return "shop/completedOrder";
@@ -167,42 +173,63 @@ public class ShopController {
     public String confirmReceive(@RequestParam(value="orderId") String orderId, Model model, HttpSession session)
     {
         Shop shop = (Shop) session.getAttribute("currentShop");
-        shopService.updateOrderState(orderId, "toReceive");
-        List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "toPrint");
+        shopService.updateOrderState(orderId, "待取货");
+        List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "等待打印");
 //        if(order_lists.isEmpty())
 //        {
 //            model.addAttribute("message", "当前没有需打印的订单");
 //            model.addAttribute("shop", shop);
 //            return "shop/toReceiveOrder";
 //        }
-//        for(Order_List order_list : order_lists)
-//        {
-//            order_list = addPrice(order_list, shop.getShopId());
-//        }
+        for(Order_List order_list : order_lists)
+        {
+            order_list = consummerService.convertOrder(order_list);
+        }
         model.addAttribute("orders",order_lists);
         model.addAttribute("shop", shop);
         return "shop/toReceiveOrder";
     }
 
-    @RequestMapping(value = "/confirmComplete")
-    public String confirmComplete(@RequestParam(value="orderId") String orderId, Model model, HttpSession session)
+    public Order_List addPrice(Order_List order_list, String shopId, int pageCount)
+    {
+        order_list.setTotalPageCount(order_list.getPrintCount()*pageCount);
+        //查找用户资源的单张纸价格
+        Shop_Price shop_price = shopService.getShopPrice(shopId);
+        if(order_list.getPrintFormat().equals("single"))
+        {
+            order_list.setTotalPrice(shop_price.getSinglePagePrice().doubleValue() * order_list.getTotalPageCount());
+        }
+        else
+        {
+            order_list.setTotalPrice(shop_price.getDoublePagePrice().doubleValue() * order_list.getTotalPageCount() / 2);
+        }
+        return order_list;
+    }
+
+    @RequestMapping(value = "/modifyPageCount", method = RequestMethod.POST)
+    public String confirmComplete(@RequestParam(value="orderId") String orderId,
+                                  @RequestParam(value="pageCount") String pageCount,
+                                  Model model, HttpSession session)
     {
         Shop shop = (Shop) session.getAttribute("currentShop");
-        shopService.updateOrderState(orderId, "completed");
-        List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "toReceive");
+        Order_List order_list = shopService.getOrderById(orderId);
+        order_list = addPrice(order_list, shop.getShopId(), Integer.parseInt(pageCount));
+        shopService.updateOrder(order_list);
+//        shopService.updateOrderState(orderId, "completed");
+        List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "等待打印");
 //        if(order_lists.isEmpty())
 //        {
 //            model.addAttribute("message", "当前没有需领取的订单");
 //            model.addAttribute("shop", shop);
 //            return "shop/uncompletedOrder";
 //        }
-//        for(Order_List order_list : order_lists)
-//        {
-//            order_list = addPrice(order_list, shop.getShopId());
-//        }
+        for(Order_List order_list1 : order_lists)
+        {
+            order_list1 = consummerService.convertOrder(order_list);
+        }
         model.addAttribute("orders",order_lists);
         model.addAttribute("shop", shop);
-        return "shop/uncompletedOrder";
+        return "shop/toReceiveOrder";
     }
 
     @RequestMapping(value = "/showResources")

@@ -144,6 +144,16 @@
                 </div>
             </div>
             <div class="formRow">
+                <p>单面打印价格:${shop_price.singlePagePrice}</p>
+                <div class="clear">
+                </div>
+            </div>
+            <div class="formRow">
+                <p>双面打印价格:${shop_price.doublePagePrice}</p>
+                <div class="clear">
+                </div>
+            </div>
+            <div class="formRow">
                 <p>注册时间:${shop.signupTime}</p>
                 <div class="clear">
                 </div>

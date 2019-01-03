@@ -106,6 +106,16 @@
                     <div class="clear"></div>
                 </div>
                 <div class="formRow">
+                    <label for="pass">单面打印价格</label>
+                    <div class="loginInput"><input type="text" name="singlePagePrice" class="validate[required]" id="pass" /></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="formRow">
+                    <label for="pass">双面打印价格</label>
+                    <div class="loginInput"><input type="text" name="doublePagePrice" class="validate[required]" id="pass" /></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="formRow">
                     <label style="width:10%">密码</label>
                     <input type="password" class="validate[required]" name="password1" id="password1"/>
                     <div class="clear"></div>

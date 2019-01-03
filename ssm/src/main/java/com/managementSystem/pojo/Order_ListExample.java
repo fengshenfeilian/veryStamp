@@ -515,6 +515,126 @@ public class Order_ListExample {
             return (Criteria) this;
         }
 
+        public Criteria andTotalPriceIsNull() {
+            addCriterion("TOTAL_PRICE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPriceIsNotNull() {
+            addCriterion("TOTAL_PRICE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPriceEqualTo(Double value) {
+            addCriterion("TOTAL_PRICE =", value, "totalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPriceNotEqualTo(Double value) {
+            addCriterion("TOTAL_PRICE <>", value, "totalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPriceGreaterThan(Double value) {
+            addCriterion("TOTAL_PRICE >", value, "totalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPriceGreaterThanOrEqualTo(Double value) {
+            addCriterion("TOTAL_PRICE >=", value, "totalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPriceLessThan(Double value) {
+            addCriterion("TOTAL_PRICE <", value, "totalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPriceLessThanOrEqualTo(Double value) {
+            addCriterion("TOTAL_PRICE <=", value, "totalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPriceIn(List<Double> values) {
+            addCriterion("TOTAL_PRICE in", values, "totalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPriceNotIn(List<Double> values) {
+            addCriterion("TOTAL_PRICE not in", values, "totalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPriceBetween(Double value1, Double value2) {
+            addCriterion("TOTAL_PRICE between", value1, value2, "totalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPriceNotBetween(Double value1, Double value2) {
+            addCriterion("TOTAL_PRICE not between", value1, value2, "totalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPageCountIsNull() {
+            addCriterion("TOTAL_PAGE_COUNT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPageCountIsNotNull() {
+            addCriterion("TOTAL_PAGE_COUNT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPageCountEqualTo(Integer value) {
+            addCriterion("TOTAL_PAGE_COUNT =", value, "totalPageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPageCountNotEqualTo(Integer value) {
+            addCriterion("TOTAL_PAGE_COUNT <>", value, "totalPageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPageCountGreaterThan(Integer value) {
+            addCriterion("TOTAL_PAGE_COUNT >", value, "totalPageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPageCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("TOTAL_PAGE_COUNT >=", value, "totalPageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPageCountLessThan(Integer value) {
+            addCriterion("TOTAL_PAGE_COUNT <", value, "totalPageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPageCountLessThanOrEqualTo(Integer value) {
+            addCriterion("TOTAL_PAGE_COUNT <=", value, "totalPageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPageCountIn(List<Integer> values) {
+            addCriterion("TOTAL_PAGE_COUNT in", values, "totalPageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPageCountNotIn(List<Integer> values) {
+            addCriterion("TOTAL_PAGE_COUNT not in", values, "totalPageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPageCountBetween(Integer value1, Integer value2) {
+            addCriterion("TOTAL_PAGE_COUNT between", value1, value2, "totalPageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPageCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("TOTAL_PAGE_COUNT not between", value1, value2, "totalPageCount");
+            return (Criteria) this;
+        }
+
         public Criteria andOrderTimeIsNull() {
             addCriterion("ORDER_TIME is null");
             return (Criteria) this;

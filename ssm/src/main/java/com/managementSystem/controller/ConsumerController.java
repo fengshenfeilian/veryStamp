@@ -247,7 +247,6 @@ public class ConsumerController {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String curDateTimeStr = df.format(curDateTime);
         getTime = getTime.replace('T', ' ') + ":00";
-
         //取货时间不合法，则订单创建失败
         if(getTime.compareTo(curDateTimeStr) < 0){
             model.addAttribute("message","取货时间不能早于当前时间");
@@ -261,6 +260,7 @@ public class ConsumerController {
         resource.setResName(file.getOriginalFilename());
         resource.setResId(resId);
         resource.setResType(resType);
+
         try {
             //插入Resource记录
             consumerService.addResource(resource);

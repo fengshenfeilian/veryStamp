@@ -15,6 +15,10 @@ public class Order_List {
 
     private Integer printCount;
 
+    private Double totalPrice;
+
+    private Integer totalPageCount;
+
     private Date orderTime;
 
     private Date readyTime;
@@ -26,10 +30,6 @@ public class Order_List {
     private String state;
 
     private String resourceName;
-
-    private int countPerRecourse;
-
-    private double price;
 
     public String getOrderId() {
         return orderId;
@@ -79,6 +79,22 @@ public class Order_List {
         this.printCount = printCount;
     }
 
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Integer getTotalPageCount() {
+        return totalPageCount;
+    }
+
+    public void setTotalPageCount(Integer totalPageCount) {
+        this.totalPageCount = totalPageCount;
+    }
+
     public Date getOrderTime() {
         return orderTime;
     }
@@ -125,21 +141,5 @@ public class Order_List {
 
     public void setResourceName(String resourceName) {
         this.resourceName = resourceName;
-    }
-
-    public int getCountPerRecourse() {
-        return countPerRecourse;
-    }
-
-    public void setCountPerRecourse(int countPerRecourse) {
-        this.countPerRecourse = countPerRecourse;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 }

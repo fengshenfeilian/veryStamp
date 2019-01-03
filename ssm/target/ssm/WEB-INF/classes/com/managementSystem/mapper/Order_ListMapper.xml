@@ -8,6 +8,8 @@
     <result column="RES_ID" jdbcType="VARCHAR" property="resId" />
     <result column="PRINT_FORMAT" jdbcType="VARCHAR" property="printFormat" />
     <result column="PRINT_COUNT" jdbcType="INTEGER" property="printCount" />
+    <result column="TOTAL_PRICE" jdbcType="DOUBLE" property="totalPrice" />
+    <result column="TOTAL_PAGE_COUNT" jdbcType="INTEGER" property="totalPageCount" />
     <result column="ORDER_TIME" jdbcType="TIMESTAMP" property="orderTime" />
     <result column="READY_TIME" jdbcType="TIMESTAMP" property="readyTime" />
     <result column="FINISH_TIME" jdbcType="TIMESTAMP" property="finishTime" />
@@ -73,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ORDER_ID, USER_ID, SHOP_ID, RES_ID, PRINT_FORMAT, PRINT_COUNT, ORDER_TIME, READY_TIME, 
-    FINISH_TIME, TARGET_TAKE_TIME, STATE
+    ORDER_ID, USER_ID, SHOP_ID, RES_ID, PRINT_FORMAT, PRINT_COUNT, TOTAL_PRICE, TOTAL_PAGE_COUNT, 
+    ORDER_TIME, READY_TIME, FINISH_TIME, TARGET_TAKE_TIME, STATE
   </sql>
   <select id="selectByExample" parameterType="com.managementSystem.pojo.Order_ListExample" resultMap="BaseResultMap">
     select
@@ -109,12 +111,14 @@
   <insert id="insert" parameterType="com.managementSystem.pojo.Order_List">
     insert into order_list (ORDER_ID, USER_ID, SHOP_ID, 
       RES_ID, PRINT_FORMAT, PRINT_COUNT, 
-      ORDER_TIME, READY_TIME, FINISH_TIME, 
-      TARGET_TAKE_TIME, STATE)
+      TOTAL_PRICE, TOTAL_PAGE_COUNT, ORDER_TIME, 
+      READY_TIME, FINISH_TIME, TARGET_TAKE_TIME, 
+      STATE)
     values (#{orderId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}, 
       #{resId,jdbcType=VARCHAR}, #{printFormat,jdbcType=VARCHAR}, #{printCount,jdbcType=INTEGER}, 
-      #{orderTime,jdbcType=TIMESTAMP}, #{readyTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP}, 
-      #{targetTakeTime,jdbcType=TIMESTAMP}, #{state,jdbcType=VARCHAR})
+      #{totalPrice,jdbcType=DOUBLE}, #{totalPageCount,jdbcType=INTEGER}, #{orderTime,jdbcType=TIMESTAMP}, 
+      #{readyTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP}, #{targetTakeTime,jdbcType=TIMESTAMP}, 
+      #{state,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.managementSystem.pojo.Order_List">
     insert into order_list
@@ -136,6 +140,12 @@
       </if>
       <if test="printCount != null">
         PRINT_COUNT,
+      </if>
+      <if test="totalPrice != null">
+        TOTAL_PRICE,
+      </if>
+      <if test="totalPageCount != null">
+        TOTAL_PAGE_COUNT,
       </if>
       <if test="orderTime != null">
         ORDER_TIME,
@@ -171,6 +181,12 @@
       </if>
       <if test="printCount != null">
         #{printCount,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="totalPageCount != null">
+        #{totalPageCount,jdbcType=INTEGER},
       </if>
       <if test="orderTime != null">
         #{orderTime,jdbcType=TIMESTAMP},
@@ -216,6 +232,12 @@
       <if test="record.printCount != null">
         PRINT_COUNT = #{record.printCount,jdbcType=INTEGER},
       </if>
+      <if test="record.totalPrice != null">
+        TOTAL_PRICE = #{record.totalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.totalPageCount != null">
+        TOTAL_PAGE_COUNT = #{record.totalPageCount,jdbcType=INTEGER},
+      </if>
       <if test="record.orderTime != null">
         ORDER_TIME = #{record.orderTime,jdbcType=TIMESTAMP},
       </if>
@@ -244,6 +266,8 @@
       RES_ID = #{record.resId,jdbcType=VARCHAR},
       PRINT_FORMAT = #{record.printFormat,jdbcType=VARCHAR},
       PRINT_COUNT = #{record.printCount,jdbcType=INTEGER},
+      TOTAL_PRICE = #{record.totalPrice,jdbcType=DOUBLE},
+      TOTAL_PAGE_COUNT = #{record.totalPageCount,jdbcType=INTEGER},
       ORDER_TIME = #{record.orderTime,jdbcType=TIMESTAMP},
       READY_TIME = #{record.readyTime,jdbcType=TIMESTAMP},
       FINISH_TIME = #{record.finishTime,jdbcType=TIMESTAMP},
@@ -271,6 +295,12 @@
       <if test="printCount != null">
         PRINT_COUNT = #{printCount,jdbcType=INTEGER},
       </if>
+      <if test="totalPrice != null">
+        TOTAL_PRICE = #{totalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="totalPageCount != null">
+        TOTAL_PAGE_COUNT = #{totalPageCount,jdbcType=INTEGER},
+      </if>
       <if test="orderTime != null">
         ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
       </if>
@@ -296,6 +326,8 @@
       RES_ID = #{resId,jdbcType=VARCHAR},
       PRINT_FORMAT = #{printFormat,jdbcType=VARCHAR},
       PRINT_COUNT = #{printCount,jdbcType=INTEGER},
+      TOTAL_PRICE = #{totalPrice,jdbcType=DOUBLE},
+      TOTAL_PAGE_COUNT = #{totalPageCount,jdbcType=INTEGER},
       ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
       READY_TIME = #{readyTime,jdbcType=TIMESTAMP},
       FINISH_TIME = #{finishTime,jdbcType=TIMESTAMP},

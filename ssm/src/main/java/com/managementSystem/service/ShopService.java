@@ -19,8 +19,11 @@ public class ShopService {
 
     @Autowired
     ShopMapper shopMapper;
+    @Autowired
     Order_ListMapper order_listMapper;
+    @Autowired
     ResourceMapper resourceMapper;
+    @Autowired
     Shop_PriceMapper shop_priceMapper;
 
     public void updateShop(Shop shop) {

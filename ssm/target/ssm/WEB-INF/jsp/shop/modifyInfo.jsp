@@ -91,9 +91,9 @@
                 <li><a href="/shop/showCompletedOrder" title="">已完成订单</a></li>
             </ul>
         </li>
-        <li class="tables"><a href="/shop/showResources" title="" class="exp"><span>资源管理</span><strong>2</strong></a>
+        <li class="tables"><a href="/shop/showResources"><span>资源管理</span></a>
         </li>
-        <li class="tables"><a href="/shop/shopStatistics" title="" class="exp"><span>营业统计</span><strong>3</strong></a>
+        <li class="tables"><a href="/shop/shopStatistics"><span>营业统计</span></a>
         </li>
     </ul>
 </div>
@@ -103,7 +103,7 @@
     <!-- 顶部导航栏 -->
     <div class="topNav">
         <div class="wrapper">
-            <div class="welcome"><a href="#" title=""><img src="/static/images/userPic.png" alt="" /></a><span>欢迎<strong>【<c:out value="${user.userName}"/>】</strong>使用本系统</span></div>
+            <div class="welcome"><a href="#" title=""><img src="/static/images/userPic.png" alt="" /></a><span>欢迎<strong>【<c:out value="${shop.userName}"/>】</strong>使用本系统</span></div>
 
             <div class="userNav">
                 <ul>
@@ -123,7 +123,7 @@
         <div class="widget">
             <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
                 <h6>修改信息</h6></div>
-            <form action="${pageContext.request.contextPath}/shop/modifyInfo" method="post" id="validate" class="form">
+            <form action="${pageContext.request.contextPath}/shop/modifyInfo" method="post" class="form">
                 <fieldset>
                     <div class="formRow">
                         <label for="login">原密码</label>
@@ -156,14 +156,14 @@
                     </div>
 
                     <div class="formRow">
-                        <label for="pass">营业开始时间</label>
-                        <div class="loginInput"><input type="password" name="businessStartTime" class="validate[required]" id="pass" /></div>
+                        <label style="width:10%">营业开始时间</label>
+                        <input type="time" name="businessStartTime"/>
                         <div class="clear"></div>
                     </div>
 
                     <div class="formRow">
-                        <label for="pass">营业结束时间</label>
-                        <div class="loginInput"><input type="password" name="businessEndTime" class="validate[required]" id="pass" /></div>
+                        <label style="width:10%">营业截止时间</label>
+                        <input type="time" name="businessEndTime"/>
                         <div class="clear"></div>
                     </div>
 

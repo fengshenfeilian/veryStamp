@@ -38,6 +38,8 @@ public class ShopController {
     @RequestMapping(value = "/goModifyInfo")
     public String goModifyInfo(Model model, HttpSession session, HttpServletRequest request)
     {
+        Shop shop = (Shop) session.getAttribute("currentShop");
+        model.addAttribute("shop", shop);
         return "shop/modifyInfo";
     }
 
@@ -79,10 +81,10 @@ public class ShopController {
     {
         Resource resource = shopService.getOrderedResource(order_list.getOrderId());
         order_list.setResourceName(resource.getResName());
-        order_list.setCountPerRecourse(resource.getPageCount());
+        order_list.setTotalPageCount(resource.getPageCount()*order_list.getPrintCount());
         if(resource.getResType().equals("shop"))
         {
-            order_list.setPrice(resource.getTotalPrice().doubleValue() * order_list.getPrintCount());
+            order_list.setTotalPrice(resource.getTotalPrice().doubleValue() * order_list.getPrintCount());
         }
         else
         {
@@ -90,11 +92,11 @@ public class ShopController {
             Shop_Price shop_price = shopService.getShopPrice(shopId);
             if(order_list.getPrintFormat().equals("single"))
             {
-                order_list.setPrice(shop_price.getSinglePagePrice().doubleValue() * order_list.getCountPerRecourse() * order_list.getPrintCount());
+                order_list.setTotalPrice(shop_price.getSinglePagePrice().doubleValue() * order_list.getTotalPageCount());
             }
             else
             {
-                order_list.setPrice(shop_price.getDoublePagePrice().doubleValue() * order_list.getCountPerRecourse() * order_list.getPrintCount() / 2);
+                order_list.setTotalPrice(shop_price.getDoublePagePrice().doubleValue() * order_list.getTotalPageCount() / 2);
             }
         }
         return order_list;
@@ -104,12 +106,20 @@ public class ShopController {
     public String showToReceiveOrder(Model model, HttpSession session)
     {
         Shop shop = (Shop) session.getAttribute("currentShop");
+        System.out.println(shop.getUserName());
         List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "toPrint");
+//        if(order_lists.isEmpty())
+//        {
+//            model.addAttribute("message", "当前没有需打印的订单");
+//            model.addAttribute("shop", shop);
+//            return "shop/toReceiveOrder";
+//        }
         for(Order_List order_list : order_lists)
         {
             order_list = addPrice(order_list, shop.getShopId());
         }
         model.addAttribute("orders",order_lists);
+        model.addAttribute("shop", shop);
         return "shop/toReceiveOrder";
     }
 
@@ -118,11 +128,18 @@ public class ShopController {
     {
         Shop shop = (Shop) session.getAttribute("currentShop");
         List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "ToReceive");
-        for(Order_List order_list : order_lists)
-        {
-            order_list = addPrice(order_list, shop.getShopId());
-        }
+//        if(order_lists.isEmpty())
+//        {
+//            model.addAttribute("message", "当前没有需领取的订单");
+//            model.addAttribute("shop", shop);
+//            return "shop/uncompletedOrder";
+//        }
+//        for(Order_List order_list : order_lists)
+//        {
+//            order_list = addPrice(order_list, shop.getShopId());
+//        }
         model.addAttribute("orders",order_lists);
+        model.addAttribute("shop", shop);
         return "shop/uncompletedOrder";
     }
 
@@ -131,11 +148,18 @@ public class ShopController {
     {
         Shop shop = (Shop) session.getAttribute("currentShop");
         List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "completed");
-        for(Order_List order_list : order_lists)
-        {
-            order_list = addPrice(order_list, shop.getShopId());
-        }
+//        if(order_lists.isEmpty())
+//        {
+//            model.addAttribute("message", "当前没有已完成的订单");
+//            model.addAttribute("shop", shop);
+//            return "shop/completedOrder";
+//        }
+//        for(Order_List order_list : order_lists)
+//        {
+//            order_list = addPrice(order_list, shop.getShopId());
+//        }
         model.addAttribute("orders",order_lists);
+        model.addAttribute("shop", shop);
         return "shop/completedOrder";
     }
 
@@ -145,11 +169,18 @@ public class ShopController {
         Shop shop = (Shop) session.getAttribute("currentShop");
         shopService.updateOrderState(orderId, "toReceive");
         List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "toPrint");
-        for(Order_List order_list : order_lists)
-        {
-            order_list = addPrice(order_list, shop.getShopId());
-        }
+//        if(order_lists.isEmpty())
+//        {
+//            model.addAttribute("message", "当前没有需打印的订单");
+//            model.addAttribute("shop", shop);
+//            return "shop/toReceiveOrder";
+//        }
+//        for(Order_List order_list : order_lists)
+//        {
+//            order_list = addPrice(order_list, shop.getShopId());
+//        }
         model.addAttribute("orders",order_lists);
+        model.addAttribute("shop", shop);
         return "shop/toReceiveOrder";
     }
 
@@ -159,12 +190,19 @@ public class ShopController {
         Shop shop = (Shop) session.getAttribute("currentShop");
         shopService.updateOrderState(orderId, "completed");
         List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "toReceive");
-        for(Order_List order_list : order_lists)
-        {
-            order_list = addPrice(order_list, shop.getShopId());
-        }
+//        if(order_lists.isEmpty())
+//        {
+//            model.addAttribute("message", "当前没有需领取的订单");
+//            model.addAttribute("shop", shop);
+//            return "shop/uncompletedOrder";
+//        }
+//        for(Order_List order_list : order_lists)
+//        {
+//            order_list = addPrice(order_list, shop.getShopId());
+//        }
         model.addAttribute("orders",order_lists);
-        return "shop/toReceiveOrder";
+        model.addAttribute("shop", shop);
+        return "shop/uncompletedOrder";
     }
 
     @RequestMapping(value = "/showResources")
@@ -173,6 +211,7 @@ public class ShopController {
         Shop shop = (Shop) session.getAttribute("currentShop");
         List<Resource> resources = shopService.getResources(shop.getShopId(), "shop");
         model.addAttribute("resources", resources);
+        model.addAttribute("shop", shop);
         return "shop/resourceManager";
     }
 
@@ -184,12 +223,15 @@ public class ShopController {
         Shop shop = (Shop) session.getAttribute("currentShop");
         List<Resource> resources = shopService.getResources(shop.getShopId(), "shop");
         model.addAttribute("resources", resources);
+        model.addAttribute("shop", shop);
         return "shop/resourceManager";
     }
 
     @RequestMapping(value = "/shopStatistics")
-    public String showStatistics(Model model)
+    public String showStatistics(Model model, HttpSession session)
     {
+        Shop shop = (Shop) session.getAttribute("currentShop");
+        model.addAttribute("shop", shop);
         return "shop/statistics";
     }
 
@@ -231,6 +273,7 @@ public class ShopController {
         }
         List<Resource> resources = shopService.getResources(shop.getShopId(), "shop");
         model.addAttribute("resources", resources);
+        model.addAttribute("shop", shop);
         return "shop/resourceManager";
     }
 }

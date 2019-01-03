@@ -14,7 +14,7 @@
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/verystamp"
                         userId="root"
-                        password="root">
+                        password="">
         </jdbcConnection>
 
         <javaTypeResolver >
@@ -46,10 +46,11 @@
         <table tableName="on_work_shop" domainObjectName="On_Work_Shop"></table>
         <table tableName="shop_credit" domainObjectName="Shop_Credit"></table>
         <table tableName="consumer_credit" domainObjectName="Consumer_Credit"></table>
-        <table tableName="order_list" domainObjectName="Order_List"></table>
+        <table tableName="shop" domainObjectName="Shop"></table>
         <table tableName="resource" domainObjectName="Resource"></table>
         <table tableName="shop_price" domainObjectName="Shop_Price"></table>-->
-        <table tableName="shop" domainObjectName="Shop"></table>
+        <table tableName="order_list" domainObjectName="Order_List"></table>
+
 
     </context>
 </generatorConfiguration>

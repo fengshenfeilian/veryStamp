@@ -14,8 +14,8 @@ public class AdminService {
     ConsumerMapper consumerMapper;
     @Autowired
     ShopMapper shopMapper;
-    @Autowired
-    Order_ListMapper orderListMapper;
+//    @Autowired
+//    Order_ListMapper orderListMapper;
     @Autowired
     Consumer_CreditMapper consumerCreditMapper;
     @Autowired

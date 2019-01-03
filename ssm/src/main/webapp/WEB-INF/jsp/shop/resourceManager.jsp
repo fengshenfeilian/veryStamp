@@ -84,16 +84,16 @@
     <!-- 左侧导航栏 -->
     <ul id="menu" class="nav">
         <li class="dash"><a href="/shop/showInfo" title=""><span>信息管理</span></a></li>
-        <li class="tables"><a href="#" title="" class="active"><span>订单管理</span></a>
+        <li class="tables"><a href="#" title=""><span>订单管理</span></a>
             <ul class="sub">
                 <li class="this"><a href="/shop/showToPrintOrder" title="">待打印订单</a></li>
                 <li><a href="/shop/showToReceiveOrder" title="">待取货订单</a></li>
                 <li><a href="/shop/showCompletedOrder" title="">已完成订单</a></li>
             </ul>
         </li>
-        <li class="tables"><a href="/shop/showResources" title="" class="exp"><span>资源管理</span><strong>2</strong></a>
+        <li class="tables"><a href="/shop/showResources" class="active"><span>资源管理</span></a>
         </li>
-        <li class="tables"><a href="/shop/shopStatistics" title="" class="exp"><span>营业统计</span><strong>3</strong></a>
+        <li class="tables"><a href="/shop/shopStatistics"><span>营业统计</span></a>
         </li>
     </ul>
 </div>
@@ -103,7 +103,7 @@
     <!-- 顶部导航栏 -->
     <div class="topNav">
         <div class="wrapper">
-            <div class="welcome"><a href="#" title=""><img src="/static/images/userPic.png" alt="" /></a><span>欢迎<strong>【<c:out value="${user.userName}"/>】</strong>使用本系统</span></div>
+            <div class="welcome"><a href="#" title=""><img src="/static/images/userPic.png" alt="" /></a><span>欢迎<strong>【<c:out value="${shop.userName}"/>】</strong>使用本系统</span></div>
 
             <div class="userNav">
                 <ul>
@@ -117,17 +117,24 @@
         </div>
     </div>
 
-
+    <div class="line"></div>
+    <div class="wrapper">
+        <div class="widget">
+            <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" /><h6>上传资源</h6></div>
+            <form action="${pageContext.request.contextPath}/teacher/addDailyScore" method="post" enctype="multipart/form-data">
+                <div class="formRow">
+                    <input type="file" name="filename"  value=""/>
+                    <input type="submit" name=""  value="上传资源" class="blueB"/>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <%--动态数据表--%>
     <div class="wrapper">
         <div class="widget">
             <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
                 <h6>资源列表</h6></div>
-            <form action="${pageContext.request.contextPath}/teacher/addDailyScore" method="post" enctype="multipart/form-data">
-                <input type="file" name="filename"  value="" />
-                <input type="submit" name=""  value="上传资源" />
-            </form>
             <table cellpadding="0" cellspacing="0" width="100%" class="display dTable" id="res1">
                 <thead>
                 <tr>

@@ -127,14 +127,14 @@
         <div class="widget">
             <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
                 <h6>待打印订单</h6></div>
-            <table cellpadding="0" cellspacing="0" width="100%" class="display dTable" id="res1">
+            <table cellpadding="0" cellspacing="0" width="100%" class="display dTable" id="">
                 <thead>
                 <tr>
                     <td class="sortCol"><div>订单状态<span></span></div></td>
                     <td class="sortCol"><div>资源名<span></span></div></td>
                     <td class="sortCol"><div>打印格式<span></span></div></td>
                     <td class="sortCol"><div>份数<span></span></div></td>
-                    <td class="sortCol"><div>单份页数<span></span></div></td>
+                    <td class="sortCol"><div>总页数<span></span></div></td>
                     <td class="sortCol"><div>金额<span></span></div></td>
                     <td class="sortCol"><div>打印店<span></span></div></td>
                     <td class="sortCol"><div>下单时间<span></span></div></td>
@@ -148,8 +148,8 @@
                         <td>${order.resourceName}</td>
                         <td>${order.printFormat}</td>
                         <td>${order.printCount}</td>
-                        <td>${order.countPerRecourse}</td>
-                        <td>${toPrintResList[loop.count-1].totalPrice}</td>
+                        <td>${order.totalPageCount}</td>
+                        <td>${order.totalPrice}</td>
                         <td>${order.shopId}</td>
                         <td>${order.orderTime}</td>
                         <td>${order.targetTakeTime}</td>

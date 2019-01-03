@@ -194,4 +194,27 @@ public class ConsumerService {
         return resList;
     }
 
+    public Boolean updateConsumerCredit(Consumer consumer, Integer money)
+    {
+        Consumer_Credit credit = consumerCreditMapper.selectByPrimaryKey(consumer.getConsumerId());
+        if(credit != null){
+            Date date = new Date();
+
+            Consumer_Credit newCredit = new Consumer_Credit();
+            newCredit.setConsumerId(consumer.getConsumerId());
+            newCredit.setLatestUpdateTime(date);
+            newCredit.setCredit(credit.getCredit() + money);
+            consumerCreditMapper.updateByPrimaryKey(newCredit);
+            /*
+            Consumer_CreditExample newCreditExample;
+            Consumer_CreditExample.Criteria criteria =  newCredit.createCriteria();
+            criteria.andConsumerIdEqualTo(consumer.getConsumerId());
+            criteria.andLatestUpdateTimeEqualTo(date);
+            criteria.andCreditEqualTo(credit.getCredit() + money);
+            */
+            return true;
+        }
+        return false;
+    }
+
 }

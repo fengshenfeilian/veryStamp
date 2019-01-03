@@ -120,16 +120,46 @@
         </div>
     </div>
 
-
-
-    <%--动态数据表--%>
+    <div class="line"></div>
     <div class="wrapper">
         <div class="widget">
-            <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" />
-                <h6>我的资产</h6></div>
+            <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" /><h6>我的账户</h6></div>
             <div class="formRow">
-                <p>账户余额:${consumer_credit.credit}</p>
+                <label style="width: 10%;">账户余额</label>
+                <label>${consumer_credit.credit}</label>
+                <%--                <input type="text" readonly value="${consumer_credit.credit}">--%>
+                <div class="clear"></div>
             </div>
+            <div class="formRow">
+                <label style="width: 10%;">最近一次充值时间</label>
+                <label>${consumer_credit.latestUpdateTime}</label>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="wrapper">
+        <div class="widget">
+            <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" /><h6>充值管理</h6></div>
+            <form  method="post" id="validate" class="form" action="${pageContext.request.contextPath}/consumer/recharge" enctype="multipart/form-data">
+                <div class="formRow">
+                    <label style="width:10%">充值金额</label>
+                    <input type="text" class="validate[required,custom[onlyNumberSp]]" name="numsValid" id="numsValid"/>
+                    <div class="clear"></div>
+                </div>
+                <div class="loginControl">
+                    <input type="submit" value="充值" class="blueB logMeIn" />
+                    <div class="clear"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="wrapper">
+        <div class="widget">
+            <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" /><h6>交易记录</h6></div>
             <table cellpadding="0" cellspacing="0" width="100%" class="display dTable" id="res1">
                 <thead>
                 <tr>

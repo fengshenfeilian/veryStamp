@@ -23,6 +23,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
+//待打印订单 -- 增加按钮【撤销订单】
+//待取货订单 -- 增加按钮【完成订单】
+/*
+    修订【订单价格】（showcredit、addMission、createShopResOrder）
+        -用户上传资源 : 每页价格 * 页面类型系数 * 单份页数 * 总份数
+        -店家资源 ： 单份价格 * 总份数
+*/
+
+
 @Controller
 @RequestMapping("/consumer")
 public class ConsumerController {
@@ -176,22 +185,6 @@ public class ConsumerController {
         return "/consumer/myOrderList";
     }
 
-    @RequestMapping(value = "/showcredit")
-    public String showCredit(Model model,HttpSession session,HttpServletRequest request)
-    {
-        Consumer consumer = (Consumer) session.getAttribute("currentConsumer");
-        model.addAttribute("consumer",consumer);
-        System.out.println(consumer.getConsumerId());
-        Consumer_Credit consumer_credit = consumerService.getConsumerCredit(consumer.getConsumerId());
-        if(consumer_credit != null){
-            model.addAttribute("consumer_credit",consumer_credit);
-        }
-        List<Order_List> orderLists = consumerService.getOrdersByConsumerId(consumer.getConsumerId());
-        if(orderLists != null){
-            model.addAttribute("orders",orderLists);
-        }
-        return "/consumer/credit";
-    }
 
     //以商户资源创建订单
     @RequestMapping(value = "/createShopResOrder", method = RequestMethod.POST)
@@ -298,5 +291,48 @@ public class ConsumerController {
         }
     }
 
+    //单笔充值不能超过5000元
+    @RequestMapping(value = "/recharge", method = RequestMethod.POST)
+    public String goRecharge(Model model, HttpServletRequest request, HttpSession session)
+    {
+        String moneyStr = request.getParameter("numsValid");
+        if(moneyStr.length() > 4){
+            model.addAttribute("message","单笔充值超过限额");
+            return "redirect:/consumer/showcredit";
+        }
+        Integer money = Integer.parseInt(moneyStr);
+        if(money.compareTo(5000) > 0){
+            model.addAttribute("message","单笔充值超过限额");
+        }
+        else{
+            Consumer consumer = (Consumer) session.getAttribute("currentConsumer");
+            if(consumerService.updateConsumerCredit(consumer,money) == true){
+                model.addAttribute("message","充值成功");
+            }else{
+                model.addAttribute("message","充值失败");
+            }
+        }
+        return "redirect:/consumer/showcredit";
+    }
+
+    @RequestMapping(value = "/showcredit")
+    public String showCredit(Model model,HttpSession session,HttpServletRequest request)
+    {
+        Consumer consumer = (Consumer) session.getAttribute("currentConsumer");
+        model.addAttribute("consumer",consumer);
+        Consumer_Credit consumer_credit = consumerService.getConsumerCredit(consumer.getConsumerId());
+        System.out.println("账户余额" + consumer_credit.getCredit().toString());
+        if(consumer_credit != null){
+            model.addAttribute("consumer_credit",consumer_credit);
+        }
+        //获取已完成订单
+        List<Order_List> orderLists = consumerService.getCompleteOrderList(consumer.getConsumerId());
+        if(orderLists != null){
+            model.addAttribute("orders",orderLists);
+        }
+        //计算得到订单价格
+
+        return "/consumer/credit";
+    }
 
 }

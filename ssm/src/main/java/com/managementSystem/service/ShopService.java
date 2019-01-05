@@ -13,6 +13,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -59,6 +60,8 @@ public class ShopService {
     public void updateOrderState(String orderId, String state) {
         Order_List order_list = order_listMapper.selectByPrimaryKey(orderId);
         order_list.setState(state);
+        Date nowDate = new Date();
+        order_list.setReadyTime(nowDate);
         order_listMapper.updateByPrimaryKey(order_list);
     }
 

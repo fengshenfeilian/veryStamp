@@ -8,6 +8,7 @@ import com.managementSystem.pojo.Shop_Price;
 import com.managementSystem.service.ConsumerService;
 import com.managementSystem.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -322,5 +325,40 @@ public class ShopController {
         model.addAttribute("resources", resources);
         model.addAttribute("shop", shop);
         return "shop/resourceManager";
+    }
+
+    @RequestMapping(value = "/selectStatistic")
+    public String selectStatistic(@RequestParam("year") String year,
+                                  @RequestParam("month") String month,
+                                  HttpSession session, Model model)
+    {
+        Shop shop = (Shop)session.getAttribute("currentShop");
+        model.addAttribute("shop", shop);
+        List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "已完成");
+        int num = 0;
+        double price = 0.0;
+        for (Order_List order_list : order_lists)
+        {
+            Date t = order_list.getFinishTime();
+//            Calendar c = Calendar.getInstance();
+////            c.setTime(t);
+////            System.out.println(t.toString());
+////            int y = c.get(Calendar.YEAR);
+////            int m = c.get(Calendar.MONTH);
+            String y = String.format("%tY", t);
+            String m = String.format("%tm", t);
+            System.out.println(y);
+            System.out.println(m);
+            if(y.equals(year) && m.equals(month))
+            {
+                num++;
+                price += order_list.getTotalPrice().doubleValue();
+            }
+        }
+        model.addAttribute("year", year);
+        model.addAttribute("month", month);
+        model.addAttribute("num", num);
+        model.addAttribute("price", price);
+        return "shop/statistics";
     }
 }

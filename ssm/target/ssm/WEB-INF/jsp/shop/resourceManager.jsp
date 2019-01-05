@@ -121,12 +121,7 @@
     <div class="wrapper">
         <div class="widget">
             <div class="title"><img src="/static/images/icons/dark/frames.png" alt="" class="titleIcon" /><h6>上传资源</h6></div>
-            <form action="${pageContext.request.contextPath}/teacher/addDailyScore" method="post" enctype="multipart/form-data">
-                <div class="formRow">
-                    <input type="file" name="filename"  value=""/>
-                    <input type="submit" name=""  value="上传资源" class="blueB"/>
-                </div>
-            </form>
+            <a href="/shop/goAddResource"><button class="redB">添加资源</button></a>
         </div>
     </div>
 

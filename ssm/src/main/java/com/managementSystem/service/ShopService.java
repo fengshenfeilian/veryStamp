@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -64,20 +65,25 @@ public class ShopService {
     public void deleteResource(String resourceId) {
         resourceMapper.deleteByPrimaryKey(resourceId);
     }
-
-    public void saveResource(String name, MultipartFile Mfile) {
-        CommonsMultipartFile cf = (CommonsMultipartFile) Mfile;
-        File file = new File("D:/veryStamp/resources");
-        if (!file.exists()) file.mkdirs();
-        File newFile = new File("D:/veryStamp/resources/" + name);
-        try {
-            cf.getFileItem().write(newFile);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
+    /*
+        public void saveResource(String name, MultipartFile file) {
+            Calendar date = Calendar.getInstance();
+            String datePath = date.get(Calendar.YEAR) + "/" + (date.get(Calendar.MONTH) + 1) + "/";
+            String rootPath = "C:/VeryStamp/";
+            String filename = file.getOriginalFilename();
+            try {
+                File destFile = new File(rootPath + datePath + filename);
+                if (!destFile.getParentFile().exists()) {
+                    destFile.mkdirs();
+                }
+                file.transferTo(destFile);
+                return;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return;
+            }
         }
-    }
-
+    */
     public void updateOrder(Order_List order_list) {
         order_listMapper.updateByPrimaryKey(order_list);
     }
@@ -88,5 +94,9 @@ public class ShopService {
 
     public void updateShopPrice(Shop_Price shop_price) {
         shop_priceMapper.updateByPrimaryKey(shop_price);
+    }
+
+    public void insertResource(Resource resource) {
+        resourceMapper.insert(resource);
     }
 }

@@ -240,5 +240,7 @@ public class ConsumerService {
     {
         orderListMapper.deleteByPrimaryKey(orderId);
     }
-
+    public void deleteResById(String resId){
+        resourceMapper.deleteByPrimaryKey(resId);
+    }
 }

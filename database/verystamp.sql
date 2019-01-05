@@ -104,7 +104,7 @@ DROP TABLE IF EXISTS `resource`;
 CREATE TABLE `resource`  (
   `RES_ID` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `RES_NAME` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `SHOP_ID` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `SHOP_ID` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `PAGE_COUNT` int(3) NULL DEFAULT NULL,
   `DESCRIPTION` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `TOTAL_PRICE` decimal(10, 2) NULL DEFAULT NULL,

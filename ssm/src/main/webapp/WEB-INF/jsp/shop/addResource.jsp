@@ -128,7 +128,6 @@
                 <fieldset>
                     <div class="formRow">
                         <input type="file" name="filename"  value="" />
-                        <input type="submit" name=""  value="上传资源" />
                     </div>
                     <div class="formRow">
                         <label for="login">资源名称</label>

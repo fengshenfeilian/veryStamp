@@ -60,7 +60,7 @@ public class ConsumerController {
     public String updatepassword(@RequestParam(value = "now_password")String now_password,
                                  @RequestParam(value = "new_password")String new_password,
                                  @RequestParam(value = "re_new_password")String re_new_password,
-                                Model model, HttpSession session, HttpServletRequest request)
+                                 Model model, HttpSession session, HttpServletRequest request)
     {
         Consumer consumer = (Consumer) session.getAttribute("currentConsumer");
         if (now_password.isEmpty() || new_password.isEmpty() || re_new_password.isEmpty())
@@ -129,8 +129,8 @@ public class ConsumerController {
 
     @RequestMapping(value = "/inquiry",method = RequestMethod.POST)
     public String inquiryResource( @RequestParam(value = "inquiry_resource_content") String resource_content,
-                                    @RequestParam(value = "inquiry_shop_content") String shop_content,
-                                    Model model,HttpSession session,HttpServletRequest request)
+                                   @RequestParam(value = "inquiry_shop_content") String shop_content,
+                                   Model model,HttpSession session,HttpServletRequest request)
     {
         if(resource_content.isEmpty() && shop_content.isEmpty())
         {
@@ -190,6 +190,7 @@ public class ConsumerController {
     @RequestMapping(value = "/createShopResOrder", method = RequestMethod.POST)
     public String goCreateShopResOrder(Model model, HttpSession session, HttpServletRequest request)
     {
+        System.out.println("begin");
         //获取当前用户
         Consumer consumer = (Consumer) session.getAttribute("currentConsumer");
         //获取资源
@@ -211,19 +212,24 @@ public class ConsumerController {
         }
         //若订单创建成功，则返回订单列表
         try{
+            System.out.println("addOrder");
             Order_List order = new Order_List();
-            order.setOrderId(resId + ' ' + consumer.getConsumerId() + ' ' + resource.getShopId());
+            order.setOrderId(resId + ' ' + consumer.getConsumerId() + ' ' + resource.getShopId() + ' ' + curDateTimeStr);
             order.setShopId(resource.getShopId());
             order.setUserId(consumer.getConsumerId());
             order.setResId(resource.getResId());
             order.setPrintFormat(layout);
             order.setPrintCount(Integer.parseInt(number));
+            order.setTotalPageCount(order.getPrintCount()*Integer.parseInt(number));
+            order.setTotalPrice(resource.getTotalPrice().doubleValue() * order.getPrintCount());
             order.setOrderTime(curDateTime); //下单时间 = 当前时间
             order.setState("等待打印"); //订单状态  = 等待打印
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             Date targetTakeTime = sdf.parse(getTime);
             System.out.println(targetTakeTime.toString());
             order.setTargetTakeTime(targetTakeTime);
+            System.out.println("begin to addOrder");
+            System.out.println(order.getResId());
             consumerService.addOrder(order);
             session.setAttribute("message", "订单创建成功");
             return "redirect:/consumer/myOrder";
@@ -253,14 +259,13 @@ public class ConsumerController {
             return "redirect:/consumer/printSelfFile";
         }
         //ResId : 下单时间 + 文件名
-        String resId = curDateTimeStr + ' ' + file.getOriginalFilename();
+        String resId = file.getOriginalFilename() + ' ' + consumer.getConsumerId();
         String resType = "consumer";
         //创建(用户创建的)Resource对象
         Resource resource = new Resource();
         resource.setResName(file.getOriginalFilename());
         resource.setResId(resId);
         resource.setResType(resType);
-
         try {
             //插入Resource记录
             consumerService.addResource(resource);
@@ -269,7 +274,7 @@ public class ConsumerController {
             //插入Order记录
             Order_List order = new Order_List();
             //orderId = resId + consumerId + shopId
-            order.setOrderId(resId + ' ' + consumer.getConsumerId() + ' ' + printShopId);
+            order.setOrderId(resId + ' ' + consumer.getConsumerId() + ' ' + printShopId + ' ' +curDateTimeStr);
             order.setShopId(printShopId);
             order.setUserId(consumer.getConsumerId());
             order.setResId(resource.getResId());
@@ -279,9 +284,7 @@ public class ConsumerController {
             order.setState("等待打印"); //订单状态  = 等待打印
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             Date targetTakeTime = sdf.parse(getTime);
-            System.out.println(targetTakeTime.toString());
             order.setTargetTakeTime(targetTakeTime);
-
             consumerService.addOrder(order);
             session.setAttribute("message", "订单创建成功");
             return "redirect:/consumer/myOrder";
@@ -351,6 +354,10 @@ public class ConsumerController {
             consumerService.minusConsumerCredit(credit,order.getTotalPrice().intValue());
             //修改订单状态
             consumerService.updateOrderState(order,"已完成");
+            //删除res
+            String resid = order.getResId();
+            if(consumerService.getResourceById(resid).getResType().equals("consumer"))
+                consumerService.deleteResById(resid);
         }
         return "redirect:/consumer/myOrder";
     }
@@ -359,7 +366,9 @@ public class ConsumerController {
     public String goCancelReceipt(HttpServletRequest request, HttpSession session, Model model)
     {
         String orderId = request.getParameter("orderId");
+        String resId = consumerService.getOrderByOrderId(orderId).getResId();
         consumerService.deleteOrderById(orderId);
+        consumerService.deleteResById(resId);
         return "redirect:/consumer/myOrder";
     }
 

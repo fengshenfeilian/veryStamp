@@ -61,26 +61,26 @@ public class ShopController {
                              Model model, HttpSession session, HttpServletRequest request)
     {
         Shop shop = (Shop) session.getAttribute("currentShop");
-        if(!(shop.getPassword().equals(oldPassword)))
+        if(oldPassword != null && !(oldPassword.equals("")) && !(shop.getPassword().equals(oldPassword)))
         {
             model.addAttribute("message", "原密码错误");
             return "shop/modifyInfo";
         }
-        else if(!password.equals(confirmPassword))
+        else if(!(password.equals(confirmPassword)))
         {
             model.addAttribute("message", "前后密码不一致");
             return "shop/modifyInfo";
         }
-        if(password != null)
+        if(password != null && !(password.equals("")))
         {
             shop.setPassword(password);
         }
-        if(phone != null) shop.setPhone(phone);
-        if(address != null) shop.setAddress(address);
-        if(businessStartTime != null) shop.setBusinessStartTime(businessStartTime);
-        if(businessEndTime != null) shop.setBusinessEndTime(businessEndTime);
+        if(phone != null && !(phone.equals(""))) shop.setPhone(phone);
+        if(address != null && !(address.equals(""))) shop.setAddress(address);
+        if(businessStartTime != null && !(businessStartTime.equals(""))) shop.setBusinessStartTime(businessStartTime);
+        if(businessEndTime != null && !(businessStartTime.equals(""))) shop.setBusinessEndTime(businessEndTime);
         Shop_Price shop_price = shopService.getShopPrice(shop.getShopId());
-        if(singlePagePrice != null)
+        if(singlePagePrice != null && !(singlePagePrice.equals("")))
         {
             try {
                 shop_price.setSinglePagePrice(new BigDecimal(Double.parseDouble(singlePagePrice)));
@@ -91,7 +91,7 @@ public class ShopController {
                 return "shop/infoManager";
             }
         }
-        if(doublePagePrice != null)
+        if(doublePagePrice != null && !(doublePagePrice.equals("")))
         {
             try {
                 shop_price.setDoublePagePrice(new BigDecimal(Double.parseDouble(doublePagePrice)));
@@ -105,6 +105,7 @@ public class ShopController {
         shopService.updateShopPrice(shop_price);
         shopService.updateShop(shop);
         model.addAttribute("shop", shop);
+        model.addAttribute("shop_price", shop_price);
         return "shop/infoManager";
     }
 
@@ -213,19 +214,26 @@ public class ShopController {
     {
         Shop shop = (Shop) session.getAttribute("currentShop");
         Order_List order_list = shopService.getOrderById(orderId);
-        order_list = addPrice(order_list, shop.getShopId(), Integer.parseInt(pageCount));
-        shopService.updateOrder(order_list);
+        if(order_list == null)
+        {
+            model.addAttribute("message", "该订单不存在");
+        }
+        else
+        {
+            order_list = addPrice(order_list, shop.getShopId(), Integer.parseInt(pageCount));
+            shopService.updateOrder(order_list);
+        }
 //        shopService.updateOrderState(orderId, "completed");
         List<Order_List> order_lists = shopService.getOrdersByState(shop.getShopId(), "等待打印");
 //        if(order_lists.isEmpty())
 //        {
-//            model.addAttribute("message", "当前没有需领取的订单");
+//            model.addAttribute("message", "当前没有需打印的订单");
 //            model.addAttribute("shop", shop);
-//            return "shop/uncompletedOrder";
+//            return "shop/toReceiveOrder";
 //        }
         for(Order_List order_list1 : order_lists)
         {
-            order_list1 = consummerService.convertOrder(order_list);
+            order_list1 = consummerService.convertOrder(order_list1);
         }
         model.addAttribute("orders",order_lists);
         model.addAttribute("shop", shop);
@@ -240,6 +248,16 @@ public class ShopController {
         model.addAttribute("resources", resources);
         model.addAttribute("shop", shop);
         return "shop/resourceManager";
+    }
+
+    @RequestMapping(value = "/goAddResource")
+    public String goAddResource(Model model, HttpSession session)
+    {
+        Shop shop = (Shop) session.getAttribute("currentShop");
+        model.addAttribute("shop", shop);
+        List<Resource> resources = shopService.getResources(shop.getShopId(), "shop");
+        model.addAttribute("resources", resources);
+        return "shop/addResource";
     }
 
     @RequestMapping(value = "/deleteResource")
@@ -286,7 +304,8 @@ public class ShopController {
             }
             else
             {
-                shopService.saveResource(name, file);
+//                shopService.saveResource(name, file);
+                consummerService.saveFile(file);
                 Resource resource = new Resource();
                 resource.setResName(resName);
                 resource.setShopId(shop.getShopId());
@@ -295,6 +314,7 @@ public class ShopController {
                 resource.setPageCount(Integer.parseInt(pageCount));
                 resource.setTotalPrice(new BigDecimal(Double.parseDouble(price)));
                 resource.setResType("shop");
+                shopService.insertResource(resource);
                 model.addAttribute("message", "上传成功");
             }
         }

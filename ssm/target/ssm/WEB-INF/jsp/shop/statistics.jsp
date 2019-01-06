@@ -123,7 +123,7 @@
                 <fieldset>
                     <div class="formRow">
                         <label for="printShop" style="width:10%">年份</label>
-                        <select name="year" class="validate[required]" id="printShop">
+                        <select name="year" class="validate[required]" id="">
                                <option value="0" >--请选择--</OPTION>
                                <option value="2018" selected="selected">2018</option>
                                   <option value="2019" selected="selected">2019</option>

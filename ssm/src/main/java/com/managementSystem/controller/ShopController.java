@@ -81,7 +81,7 @@ public class ShopController {
         if(phone != null && !(phone.equals(""))) shop.setPhone(phone);
         if(address != null && !(address.equals(""))) shop.setAddress(address);
         if(businessStartTime != null && !(businessStartTime.equals(""))) shop.setBusinessStartTime(businessStartTime);
-        if(businessEndTime != null && !(businessStartTime.equals(""))) shop.setBusinessEndTime(businessEndTime);
+        if(businessEndTime != null && !(businessEndTime.equals(""))) shop.setBusinessEndTime(businessEndTime);
         Shop_Price shop_price = shopService.getShopPrice(shop.getShopId());
         if(singlePagePrice != null && !(singlePagePrice.equals("")))
         {

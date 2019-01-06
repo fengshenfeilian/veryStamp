@@ -3,6 +3,7 @@ package com.managementSystem.service;
 
 import com.managementSystem.dao.*;
 import com.managementSystem.pojo.*;
+import org.apache.ibatis.jdbc.Null;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -54,7 +55,6 @@ public class ConsumerService {
         if (consumerCredit != null) {
             return consumerCredit;
         }
-        System.out.println("No ConsumerCredit Object");
         return null;
     }
 
@@ -242,5 +242,25 @@ public class ConsumerService {
     }
     public void deleteResById(String resId){
         resourceMapper.deleteByPrimaryKey(resId);
+    }
+    public boolean alreadyIn(String resId)
+    {
+        Resource resource = resourceMapper.selectByPrimaryKey(resId);
+        if(resource == null)
+            return false;
+        else
+            return true;
+    }
+    public boolean resourceByConsumer(String resId)
+    {
+        Resource resource = resourceMapper.selectByPrimaryKey(resId);
+        if(resource.getResType().equals("consumer"))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

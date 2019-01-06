@@ -86,7 +86,7 @@
         <li class="dash"><a href="/consumer/showInfo" class="active" title=""><span>信息管理</span></a>
             <ul class="sub">
                 <li class = "this"><a href="/consumer/showInfo" title="">我的信息</a></li>
-                <li ><a href="/consumer/changepassword" title="">修改密码</a></li>
+                <li ><a href="/consumer/gochangepassword" title="">修改密码</a></li>
             </ul>
         </li>
         <li class="tables"><a href="#" title="" class=""><span>新建订单</span></a>

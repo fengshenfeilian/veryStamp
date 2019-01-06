@@ -44,11 +44,9 @@ public class ConsumerController {
     {
         Consumer consumer = (Consumer) session.getAttribute("currentConsumer");
         model.addAttribute("consumer",consumer);
-        System.out.println("consumer login");
         return "/consumer/infoManager";
     }
-
-    @RequestMapping(value = "/changepassword")
+    @RequestMapping(value = "/gochangepassword")
     public String changePassowrd(Model model,HttpSession session,HttpServletRequest request)
     {
         Consumer consumer = (Consumer) session.getAttribute("currentConsumer");
@@ -66,7 +64,7 @@ public class ConsumerController {
         if (now_password.isEmpty() || new_password.isEmpty() || re_new_password.isEmpty())
         {
             model.addAttribute("message", "密码为空");
-            return "/consumer/changepassword";
+            return "redirect:/consumer/gochangepassword";
         }
         if(now_password.equals(consumer.getPassword()))
         {
@@ -86,13 +84,13 @@ public class ConsumerController {
             else
             {
                 model.addAttribute("message", "两次密码不一致");
-                return "/consumer/changepassword";
+                return "redirect:/consumer/gochangepassword";
             }
         }
         else
         {
             model.addAttribute("message", "原密码错误");
-            return  "/consumer/changepassword";
+            return "redirect:/consumer/gochangepassword";
         }
 
     }
@@ -168,7 +166,6 @@ public class ConsumerController {
         List<Order_List> toPrintOrderList = consumerService.getToPrintOrderList(consumer.getConsumerId());
         List<Order_List> toReceiveOrderList = consumerService.getToReceiveOrderList(consumer.getConsumerId());
         List<Order_List> completeOrderList = consumerService.getCompleteOrderList(consumer.getConsumerId());
-
         model.addAttribute("toPrintOrderList",toPrintOrderList);
         model.addAttribute("toReceiveOrderList",toReceiveOrderList);
         model.addAttribute("completeOrderList",completeOrderList);
@@ -190,7 +187,6 @@ public class ConsumerController {
     @RequestMapping(value = "/createShopResOrder", method = RequestMethod.POST)
     public String goCreateShopResOrder(Model model, HttpSession session, HttpServletRequest request)
     {
-        System.out.println("begin");
         //获取当前用户
         Consumer consumer = (Consumer) session.getAttribute("currentConsumer");
         //获取资源
@@ -212,7 +208,6 @@ public class ConsumerController {
         }
         //若订单创建成功，则返回订单列表
         try{
-            System.out.println("addOrder");
             Order_List order = new Order_List();
             order.setOrderId(resId + ' ' + consumer.getConsumerId() + ' ' + resource.getShopId() + ' ' + curDateTimeStr);
             order.setShopId(resource.getShopId());
@@ -226,10 +221,7 @@ public class ConsumerController {
             order.setState("等待打印"); //订单状态  = 等待打印
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             Date targetTakeTime = sdf.parse(getTime);
-            System.out.println(targetTakeTime.toString());
             order.setTargetTakeTime(targetTakeTime);
-            System.out.println("begin to addOrder");
-            System.out.println(order.getResId());
             consumerService.addOrder(order);
             session.setAttribute("message", "订单创建成功");
             return "redirect:/consumer/myOrder";
@@ -253,10 +245,15 @@ public class ConsumerController {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String curDateTimeStr = df.format(curDateTime);
         getTime = getTime.replace('T', ' ') + ":00";
+        if(printShopId.equals("0"))
+        {
+            model.addAttribute("message","请选择打印店");
+            return "redirect:/consumer/printMyOrder";
+        }
         //取货时间不合法，则订单创建失败
         if(getTime.compareTo(curDateTimeStr) < 0){
             model.addAttribute("message","取货时间不能早于当前时间");
-            return "redirect:/consumer/printSelfFile";
+            return "redirect:/consumer/printMyOrder";
         }
         //ResId : 下单时间 + 文件名
         String resId = file.getOriginalFilename() + ' ' + consumer.getConsumerId();
@@ -268,29 +265,36 @@ public class ConsumerController {
         resource.setResType(resType);
         try {
             //插入Resource记录
-            consumerService.addResource(resource);
-            //创建资源文件目录
-            consumerService.saveFile(file);
-            //插入Order记录
-            Order_List order = new Order_List();
-            //orderId = resId + consumerId + shopId
-            order.setOrderId(resId + ' ' + consumer.getConsumerId() + ' ' + printShopId + ' ' +curDateTimeStr);
-            order.setShopId(printShopId);
-            order.setUserId(consumer.getConsumerId());
-            order.setResId(resource.getResId());
-            order.setPrintFormat(printLayout);
-            order.setPrintCount(Integer.parseInt(printNumber));
-            order.setOrderTime(curDateTime); //下单时间 = 当前时间
-            order.setState("等待打印"); //订单状态  = 等待打印
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-            Date targetTakeTime = sdf.parse(getTime);
-            order.setTargetTakeTime(targetTakeTime);
-            consumerService.addOrder(order);
-            session.setAttribute("message", "订单创建成功");
-            return "redirect:/consumer/myOrder";
+            if(consumerService.alreadyIn(resId))
+            {
+                model.addAttribute("message","订单重名，请修改待打印文件名");
+                return "redirect:/consumer/printMyOrder";
+            }
+            else {
+                consumerService.addResource(resource);
+                //创建资源文件目录
+                consumerService.saveFile(file);
+                //插入Order记录
+                Order_List order = new Order_List();
+                //orderId = resId + consumerId + shopId
+                order.setOrderId(resId + ' ' + consumer.getConsumerId() + ' ' + printShopId + ' ' + curDateTimeStr);
+                order.setShopId(printShopId);
+                order.setUserId(consumer.getConsumerId());
+                order.setResId(resource.getResId());
+                order.setPrintFormat(printLayout);
+                order.setPrintCount(Integer.parseInt(printNumber));
+                order.setOrderTime(curDateTime); //下单时间 = 当前时间
+                order.setState("等待打印"); //订单状态  = 等待打印
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                Date targetTakeTime = sdf.parse(getTime);
+                order.setTargetTakeTime(targetTakeTime);
+                consumerService.addOrder(order);
+                session.setAttribute("message", "订单创建成功");
+                return "redirect:/consumer/myOrder";
+            }
         } catch (Exception e) {
             session.setAttribute("message", "订单创建失败");
-            return "redirect:/consumer/printSelfFile";
+            return "redirect:/consumer/printMyOrder";
         }
     }
 
@@ -354,10 +358,7 @@ public class ConsumerController {
             consumerService.minusConsumerCredit(credit,order.getTotalPrice().intValue());
             //修改订单状态
             consumerService.updateOrderState(order,"已完成");
-            //删除res
-            String resid = order.getResId();
-            if(consumerService.getResourceById(resid).getResType().equals("consumer"))
-                consumerService.deleteResById(resid);
+
         }
         return "redirect:/consumer/myOrder";
     }
@@ -368,7 +369,8 @@ public class ConsumerController {
         String orderId = request.getParameter("orderId");
         String resId = consumerService.getOrderByOrderId(orderId).getResId();
         consumerService.deleteOrderById(orderId);
-        consumerService.deleteResById(resId);
+        if(consumerService.resourceByConsumer(resId))
+            consumerService.deleteResById(resId);
         return "redirect:/consumer/myOrder";
     }
 

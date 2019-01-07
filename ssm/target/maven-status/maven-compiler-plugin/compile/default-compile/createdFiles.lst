@@ -31,6 +31,7 @@ com\managementSystem\dao\ResourceMapper.class
 com\managementSystem\pojo\ConsumerExample$GeneratedCriteria.class
 com\managementSystem\pojo\ConsumerExample.class
 com\managementSystem\dao\ShopMapper.class
+com\managementSystem\controller\AdminController.class
 com\managementSystem\pojo\Order_List.class
 com\managementSystem\test\MBGtest.class
 com\managementSystem\pojo\Company_InfoExample$Criterion.class
@@ -63,6 +64,7 @@ com\managementSystem\pojo\Order_ListExample$GeneratedCriteria.class
 com\managementSystem\pojo\Shop_CreditExample$Criterion.class
 com\managementSystem\pojo\ConsumerExample$Criterion.class
 com\managementSystem\pojo\Shop.class
+com\managementSystem\service\AdminService.class
 com\managementSystem\pojo\Company_InfoExample$Criteria.class
 com\managementSystem\dao\Company_InfoMapper.class
 com\managementSystem\util\Page.class

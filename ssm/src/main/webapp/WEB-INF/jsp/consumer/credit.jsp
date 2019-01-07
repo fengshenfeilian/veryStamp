@@ -173,7 +173,7 @@
                 <c:forEach items="${orders}" var="order">
                     <tr>
                         <td>${order.orderId}</td>
-                        <td>${order.price}</td>
+                        <td>${order.totalPrice}</td>
                         <td>${order.orderTime}</td>
                         <td>${order.state}</td>
                     </tr>
